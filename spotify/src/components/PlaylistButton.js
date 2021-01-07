@@ -4,6 +4,7 @@ import Spotify from "spotify-web-api-js";
 import {
     Button
   } from "react-bootstrap";
+  import "../css/pickPlaylist.css"
 
 const spotifyWebApi = new Spotify();
 
@@ -33,12 +34,13 @@ class PlaylistButton extends Component {
                     }));
                 });
             }
+        console.log(tracks)
         });
     }
     render () {
         return(
         <div>
-            <Button onClick={() => {this.handleClick(this.props.id)}} className="playlist_button" size="lg">{this.props.name}</Button>
+            <Button onClick={() => {this.handleClick(this.props.id)}} className="playlist-button" size="lg">{this.props.name}</Button>
         </div>
         )
     }

@@ -28,7 +28,7 @@ class PickPlaylist extends Component {
     render() {
         console.log(this.state.playlists)
         return(
-            <div>
+            <div className="playlist-page">
                 <div className="pick-playlist-text">
                     Pick a playlist
                 </div>

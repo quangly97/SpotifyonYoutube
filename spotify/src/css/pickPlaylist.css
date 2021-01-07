@@ -1,45 +1,49 @@
 @import url('https://fonts.googleapis.<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">/css?family=Anton');
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap");
 @import "~animate.css/source/animate.css";
 
-.body {
+* {
   background-color: black;
   text-align: center;
 }
 
-.pick_playlist_text {
-  font-family: "Nanum Gothic";
+.pick-playlist-text {
+  font-family: "Montserrat", sans-serif;
+  margin-top: 10px;
   font-size: 40px;
+  color: white;
   animation: bounce;
   animation-duration: 2s;
 }
-.playlist_button {
-  margin-right: 5px;
-  margin-bottom: 10px;
+
+.playlist-button-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 300px;
   transition: transform 150ms;
-  width: 200px;
+  margin: 0 auto;
+  margin-top: 30px;
   height: 50px;
   font-size: 90%;
   align-items: center;
   justify-content: center;
-  display: flex;
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
-.playlist_button:hover {
+
+.playlist-button {
+  margin-right: 7px;
+  margin-bottom: 10px;
+  font-size: 70%;
+  font-family: "Montserrat", sans-serif;
+}
+
+.playlist-button:hover {
   transform: scale(1.08);
   opacity: 0.2;
 }
 
-.playlist_button:active {
+.playlist-button:active {
   opacity: 0.2;
-}
-
-.playlist_container {
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  flex-wrap: wrap;
 }
 
 html {
