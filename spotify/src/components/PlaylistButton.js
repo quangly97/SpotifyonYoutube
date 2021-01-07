@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../css/Playlists.css";
 import Spotify from "spotify-web-api-js";
 import {
     Button
@@ -20,31 +19,21 @@ class PlaylistButton extends Component {
             numOfTracks = response.total
 
             var i;
-            console.log(Math.ceil(numOfTracks / 100))
             for (i=0; i < Math.ceil(numOfTracks / 100); i++) {
                 spotifyWebApi.getPlaylistTracks(playlistID, {offset: i*100}).then((response) => {
-                    tracks = tracks.concat(response.items.map((song) => {
-                        return [song.track.name, song.track.artists[0].name]
-                    }))
-                    console.log(tracks)
+                    tracks.push(...response.items.map((item) => {
+                        return  {
+                            album_name: item.track.album.name,
+                            album_images: item.track.album.images,
+                            artists: item.track.artists.map((artist) => {return artist.name}),
+                            duration: item.track.duration_ms,
+                            track_name: item.track.name,
+                            date: item.added_at
+                        }
+                    }));
                 });
             }
         });
-
-
-        
-    
-        const options = {
-            offset: 100,
-        }
-        // spotifyWebApi.getPlaylistTracks(playlistID, options).then((response) => {
-        //     console.log(response)
-        //     console.log(response.items[0].track.artists[0].name) // artist name
-        //     console.log(response.items[0].track.name) // song title
-        //     console.log(response.items[0].track.album.images[0].url) 
-
-        //     console.log(response.items[0].images[0].url) // playlist images in a url
-        // });
     }
     render () {
         return(

@@ -1,8 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import Spotify from "spotify-web-api-js";
-import PlaylistButton from "../components/PlaylistButton"
-import "../css/Playlists.css";
+
 const spotifyWebApi = new Spotify();
 
 class Youtube extends Component {
@@ -25,14 +24,6 @@ class Youtube extends Component {
     createPlaylistButtons() {
         this.setState.playlists.map(playlist => {return playlist.name});
     }
-    getPlaylists () {
-        spotifyWebApi.getUserPlaylists()
-        .then((response) => {
-            this.setState({playlists: response.items})})
-        .catch((error) => {
-            console.log(error)
-        });
-    }
 
     async search(query) {
         axios
@@ -46,7 +37,6 @@ class Youtube extends Component {
 
 
     render() {
-
         console.log(this.state.playlists)
         return(
             <div className="body">
@@ -56,14 +46,6 @@ class Youtube extends Component {
                             width="640" height="360"
                             src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1">
                     </iframe>    
-                </div>
-                <div className="pick_playlist_text">
-                    Pick a playlist
-                </div>
-                <div className="playlist_containeer">
-                    {this.state.playlists.map(playlist => (
-                        <PlaylistButton key={playlist.name} id={playlist.id} name={playlist.name}></PlaylistButton>
-                        ))}
                 </div>
             </div>
         )

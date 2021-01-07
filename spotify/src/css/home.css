@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">/css?family=Anton');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap");
+
+.background {
+  background-color: #000000;
+}
+
+.home-page {
+  background-color: #000000;
+}
+
+.spotify-youtube-card {
+  display: flex;
+  width: 500px;
+  height: 50%;
+  margin: 0 auto;
+  margin-top: 100px;
+  border: none;
+}
+
+.spotify-youtube-card-img {
+  width: 500px;
+  height: 250px;
+  border: none;
+  padding: none;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.spotify-youtube-card-button {
+  width: 500px;
+  background-color: #1db954;
+  border-color: #1db954;
+  font-family: "Montserrat", sans-serif;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+  padding: 5px;
+}
+
+.spotify-youtube-card-button:hover {
+  opacity: 0.8;
+  background-color: #ff0000;
+  border-color: #ff0000;
+  font-family: "Montserrat", sans-serif;
+}
+
+.spotify-youtube-card-button:active {
+  background-color: #ff0000;
+  border-color: #ff0000;
+  font-family: "Montserrat", sans-serif;
+}
+.spotify-youtube-card-button:focus {
+  opacity: 0.8;
+  background-color: #ff0000;
+  border-color: #ff0000;
+  font-family: "Montserrat", sans-serif;
+}
+
+.App-navbar {
+  background-color: #419c21;
+  color: white;
+  opacity: 0.5;
+}
+
+html {
+  background-color: black;
+}

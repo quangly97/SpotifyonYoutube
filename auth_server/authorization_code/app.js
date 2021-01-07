@@ -109,7 +109,7 @@ app.get("/callback", function (req, res) {
 
         // we can also pass the token to the browser to make requests from there
         res.redirect(
-          "http://localhost:3000/youtube/#" +
+          "http://localhost:3000/pickPlaylist/#" +
             querystring.stringify({
               access_token: access_token,
               refresh_token: refresh_token,

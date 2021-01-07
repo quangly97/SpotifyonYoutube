@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-import "./css/App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-
-import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Home from "./pages/home.js"
-import Youtube from "./pages/youtube.js"
+import PickPlaylist from "./pages/pickPlaylist.js"
 import Spotify from "spotify-web-api-js";
 const spotifyWebApi = new Spotify();
-// import NowPlaying from "./pages/nowPlaying.js"
 
 class App extends Component {
   constructor() {
@@ -15,17 +11,11 @@ class App extends Component {
     const params = this.getHashParams();
     this.state = {
       loggedIn: params.access_token ? true : false,
-      nowPlaying: {
-        name: "Not Checked",
-        image: "k",
-      }
     };
     if (params.access_token) {
       spotifyWebApi.setAccessToken(params.access_token)
     }
   }
-
-
   getHashParams() {
     var hashParams = {};
     var e, r = /([^&;=]+)=?([^&;]*)/g,
@@ -40,9 +30,8 @@ class App extends Component {
       <div>
         <Router>
           <Switch>
-            <Route exact path="/youtube" component={Youtube} />
+            <Route path="/pickPlaylist" component={PickPlaylist} />
             <Route path="/" component={Home} />
-            <Link to="/pages/index"></Link>
           </Switch>
         </Router> 
       </div>
