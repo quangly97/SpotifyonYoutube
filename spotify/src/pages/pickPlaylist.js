@@ -34,7 +34,7 @@ class PickPlaylist extends Component {
                 </div>
                 <div className="playlist-button-container">
                     {this.state.playlists.map(playlist => (
-                        <PlaylistButton key={playlist.name} id={playlist.id} name={playlist.name}></PlaylistButton>
+                        <PlaylistButton key={playlist.name} id={playlist.id} number={playlist} name={playlist.name}></PlaylistButton>
                         ))}
                 </div>
             </div>

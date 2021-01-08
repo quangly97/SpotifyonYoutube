@@ -40,6 +40,7 @@ class PlaylistButton extends Component {
     render () {
         return(
         <div>
+            <Button className = "playlist-button-number"></Button>
             <Button onClick={() => {this.handleClick(this.props.id)}} className="playlist-button" size="lg">{this.props.name}</Button>
         </div>
         )
