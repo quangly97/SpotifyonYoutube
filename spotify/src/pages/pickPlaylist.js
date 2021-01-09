@@ -29,12 +29,12 @@ class PickPlaylist extends Component {
         console.log(this.state.playlists)
         return(
             <div className="playlist-page">
-                <div className="pick-playlist-text">
+                <div className="pick-a-playlist-text">
                     Pick a playlist
                 </div>
-                <div className="playlist-button-container">
-                    {this.state.playlists.map(playlist => (
-                        <PlaylistButton key={playlist.name} id={playlist.id} number={playlist} name={playlist.name}></PlaylistButton>
+                <div className="playlist-buttons-container">
+                    {this.state.playlists.map((playlist, index) => (
+                        <PlaylistButton key={playlist.name} id={playlist.id} index={index} name={playlist.name} image={playlist.images[0].url}></PlaylistButton>
                         ))}
                 </div>
             </div>

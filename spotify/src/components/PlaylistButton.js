@@ -39,12 +39,15 @@ class PlaylistButton extends Component {
     }
     render () {
         return(
-        <div>
-            <Button className = "playlist-button-number"></Button>
-            <Button onClick={() => {this.handleClick(this.props.id)}} className="playlist-button" size="lg">{this.props.name}</Button>
+        <div className="playlist-number-and-button-container">
+            <Button className="playlist-button" onClick={() => {this.handleClick(this.props.id)}}  size="lg">{this.props.name}</Button>
+            <a className="playlist-image" href="http://localhost:8888/login">
+                <img src={this.props.image} alt={this.props.name} width="50" height="50"/>
+            </a>
         </div>
         )
     }
 }
 
+// <Button className="playlist-number">{this.props.index} </Button>
 export default PlaylistButton
