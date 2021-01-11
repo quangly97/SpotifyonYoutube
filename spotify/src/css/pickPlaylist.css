@@ -1,54 +1,71 @@
 @import url('https://fonts.googleapis.<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">/css?family=Anton');
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
 @import "~animate.css/source/animate.css";
 
 * {
   background-color: black;
 }
 
+.playlist-page {
+  display: flex;
+  justify-content: center;
+}
+
 .pick-a-playlist-text {
   font-family: "Montserrat", sans-serif;
-  margin-top: 10px;
-  font-size: 40px;
+  font-size: 30px;
   color: white;
   animation: bounce;
   animation-duration: 2s;
+  opacity: 0;
 }
 
-.playlist-buttons-container {
-  flex: wrap;
-  margin: 0 auto;
-  width: 500px;
-  display: inline-flex;
+.playlists-container {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
 }
 
-.playlist-number-and-button-container {
-  display: inline-block;
-  flex: wrap;
-  width: 200px;
-  margin-right: 5px;
-  margin-bottom: 10px;
+.playlist-button-and-image-container {
+  margin-right: 30px;
+  margin-bottom: 20px;
+  justify-content: left;
+  animation: fadeIn;
+  animation-duration: 3s;
 }
 
 .playlist-button {
   display: flex;
   justify-content: center;
-  margin-right: 7px;
-  font-size: 70%;
-  font-family: "Montserrat", sans-serif;
-  background-color: #1db954;
-  border-color: #1db954;
+  width: 200px;
+  height: 15px;
+  text-align: center;
+  align-items: center;
+  font-size: 50%;
+  font-family: "Montserrat", bold;
+  background-color: #19720b;
+  border-color: #19720b;
+  line-height: 0.9;
+  border-radius: 3px 3px 0px 0px;
 }
 
 .playlist-button:hover {
-  transform: scale(1.08);
-  opacity: 0.2;
+  opacity: 0.8;
+  background-color: #ff0000;
+  border-color: #ff0000;
 }
 
 .playlist-button:active {
   opacity: 0.2;
 }
 
-html {
-  background-color: black;
+.playlist-image {
+  width: 200px !important;
+  height: 200px !important;
+  border-radius: 0px 0px 4px 4px;
+}
+
+.playlist-image:hover {
+  opacity: 0.8;
 }

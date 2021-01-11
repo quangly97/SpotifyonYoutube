@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Spotify from "spotify-web-api-js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
     Button,
