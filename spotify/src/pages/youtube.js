@@ -1,12 +1,10 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import YouTube from 'react-youtube';
+import PlaylistButton from "../components/PlaylistButton"
 import {
     Button
   } from "react-bootstrap";
 import "../css/pickPlaylist.css"
-
-const YTPlayer = require('yt-player')
 
 class Youtube extends Component {
     constructor() {
@@ -16,7 +14,16 @@ class Youtube extends Component {
             searchTerm: "",
             songName: "",
             playlists: [],
+            // playlistSearchTerms: PlaylistButton.tracks.map((track) => {
+            //     var artists = "";
+            //     var i;
+            //     for (i=0; track.artists.length; i++) {
+            //         artists += (" " + track.artists[i])
+            //     }
+            //     return track.track_name & " " & artists
+            // }),
         }
+
         const opts = {
             height: '400',
             width: '640',
@@ -72,6 +79,7 @@ class Youtube extends Component {
     }  
 
     render() {
+        console.log(this.state.playlistSearchTerms)
         return(
             <div>
                 <div id="player"></div>

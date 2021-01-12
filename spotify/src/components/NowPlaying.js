@@ -13,19 +13,6 @@ class NowPlaying extends Component {
                 image: "k"
             }
         };
-        this.getNowPlaying = this.getNowPlaying.bind(this);
-        if (params.access_token) {
-            spotifyWebApi.setAccessToken(params.access_token);
-        }
-    }
-    getHashParams() {
-        var hashParams = {};
-        var e, r = /([^&;=]+)=?([^&;]*)/g,
-            q = window.location.hash.substring(1);
-        while ((e = r.exec(q))) {
-            hashParams[e[1]] = decodeURIComponent(e[2]);
-        }
-        return hashParams;
     }
     getNowPlaying() {
         spotifyWebApi.getMyCurrentPlaybackState().then((response) => {
@@ -50,14 +37,3 @@ class NowPlaying extends Component {
 }
 
 export default NowPlaying
-
-// getNowPlaying() {
-//     spotifyWebApi.getMyCurrentPlaybackState().then((response) => {
-//         this.setState({
-//             nowPlaying: {
-//             name: response.item.name,
-//             image: response.item.album.images[0].url,
-//             }
-//         })
-//     }
-// }
