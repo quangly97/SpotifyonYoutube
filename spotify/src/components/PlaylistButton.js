@@ -1,10 +1,8 @@
-import React, { Component } from "react";
-import {Link} from "react-router-dom"
+import React, { Component} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Spotify from "spotify-web-api-js";
-import {
-    Button
-  } from "react-bootstrap";
+import {withRouter, Link} from 'react-router-dom';
+import {Button} from "react-bootstrap";
 import "../css/pickPlaylist.css"
 
 const spotifyWebApi = new Spotify();
@@ -13,24 +11,25 @@ class PlaylistButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tracks: [],
+            playlistID: this.props.id, 
+            playlistName: this.props.name,
             numOfTracks: 0,
+            tracks: [],
         }
-        this.handleClick.bind(this);
+        this.loop.bind(this);
     }
-    handleClick(playlistID) {
-        this.tracklist = [];
-        this.tracks = [];
-        this.tracklists = [];
-        this.numOfTracks = 0
-        spotifyWebApi.getPlaylistTracks(playlistID).then((response) => {
-            this.numOfTracks = response.total
-            this.loop(this.numOfTracks, playlistID)
 
-            // this.tracks.forEach((number) => {
-            //     this.tracks[number] = spotifyWebApi.getPlaylistTracks(playlistID, {offset: number*100})
+    componentDidMount ()  {
+        this.tracks = [];
+        this.numOfTracks = 0
+        spotifyWebApi.getPlaylistTracks(this.state.playlistID).then((response) => {
+            this.setState({
+                numOfTracks: response.total
+            },
+            () => {this.loop(this.state.numOfTracks, this.state.playlistID)})
         })
     }
+
     async loop(number, ID) {
         for (let i=0; i < Math.ceil(number / 100); i++) {
             var r = await spotifyWebApi.getPlaylistTracks(ID, {offset: i*100}).then(response => {
@@ -42,38 +41,32 @@ class PlaylistButton extends Component {
             return hundred_tracks.items
         })
         this.tracks = [].concat.apply([], this.tracks);
-        console.log(this.tracks)
+        this.setState({ 
+            tracks: this.tracks.map(item => {
+                return  {
+                    album_name: item.track.album.name,
+                    album_images: item.track.album.images,
+                    artists: item.track.artists.map((artist) => {return artist.name}),
+                    duration: item.track.duration_ms,
+                    track_name: item.track.name,
+                    date: item.added_at,
+                }
+            })
+        })
     }
-    
-    // Promise.all(this.tracks).then((response) => {
-    //     console.log(response)
-    //     this.tracklist.push(...response.map(hundred_tracks => {
-    //         return hundred_tracks.items 
-    //     })) 
-    //     this.tracklist = this.tracklist.flat()
-    // })
 
-    // console.log( this.tracklist.map(item => {
-    //     return  {
-    //         album_name: item.track.album.name,
-    //         album_images: item.track.album.images,
-    //         artists: item.track.artists.map((artist) => {return artist.name}),
-    //         duration: item.track.duration_ms,
-    //         track_name: item.track.name,
-    //         date: item.added_at,
-    //     }
-    // })
 
     render () {
         return(
             <div className="playlist-button-and-image-container">
-            <Button className="playlist-button" onClick={() => {this.handleClick(this.props.id)}}>{this.props.name}</Button>
-            <img className="playlist-image" src={this.props.image} alt={this.props.name}/>
+
             <Link to= {{
                 pathname: "/youtube",
-                playlist: "x",
-                tracks: this.state.tracks,
-            }}>
+                playlistID: this.state.playlistID,
+                playlistName: this.state.playlistName,
+                tracks: this.state.tracks}}>
+                <Button className="playlist-button">{this.props.name}</Button>
+                <img className="playlist-image" src={this.props.image} alt={this.props.name}/>
             </Link>
         </div>
         )

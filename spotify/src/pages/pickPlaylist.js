@@ -6,8 +6,8 @@ import "../css/pickPlaylist.css"
 const spotifyWebApi = new Spotify();
 
 class PickPlaylist extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             playlists: [],
         }
@@ -26,7 +26,6 @@ class PickPlaylist extends Component {
         });
     }
     render() {
-        console.log(this.state.playlists)
         return(
             <div className="playlist-page">
                 <div className="pick-a-playlist-text">
