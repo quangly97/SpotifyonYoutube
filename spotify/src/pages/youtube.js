@@ -4,17 +4,24 @@ import PlaylistButton from "../components/PlaylistButton"
 import {Link} from "react-router-dom"
 import { Button } from "react-bootstrap";
 import "../css/pickPlaylist.css"
+import Spotify from 'spotify-web-api-js'
 
+const spotifyWebApi =  new Spotify();
 class Youtube extends Component {
     constructor(props) {
         super(props);
+        // if (this.props.history.tracks) {
+        //     localStorage.setItem("tracks", this.props.history.tracks)
+        // }
         this.state = {
             apiKey: "AIzaSyAUlBPBvCwXcYNNahVcmWPKphhIs4YjaWQ",
-            // search_terms: this.props.location.tracks.map((track) => {
+            playingstate: "",
+            // search_terms: localStorage.getItem("tracks").map((track) => {
             //     return track.artists[0] + " " + track.track_name;
             // }),
             query_IDs: [],
         }
+        spotifyWebApi.setAccessToken(localStorage.getItem("access_token"));
         const opts = {
             height: '400',
             width: '640',
@@ -25,34 +32,67 @@ class Youtube extends Component {
         }
 
         this.search = this.search.bind(this)
+        this.loadVideo = this.loadVideo.bind(this)
     }
     componentDidMount() {
-        
-        // this.state.search_terms.forEach((search_term, index) => {
-        //     this.search(search_term, index)
-        //     console.log(search_term, index)
-        // })
-        const tag = document.createElement('script');
-        tag.src = 'https://www.youtube.com/iframe_api';
-        const firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        window.onYouTubeIframeAPIReady = (e) => {
-            this.YT = window.YT;
-            this.player = new window.YT.Player('player', {
-                height: '640',
-                width: '1320',
-                videoId: 'M7lc1UVf-VE',
-                playerVars: {
-                    controls: 1,
-                    autoplay: 0,
-                    disablekb: 1,
-                    enablejsapi: 1,
-                },
-                events: {
-                    'onReady': this.onPlayerReady,
-                    'onStateChange': this.onPlayerStateChange,
-                }
-            });
+        spotifyWebApi.getMyCurrentPlaybackState().then((response) => {
+            console.log()
+            if (response === null) {
+                console.log("nothing has been playing for the past 15 minutes")
+            }
+            else if ((response !== null) & (response.is_playing===false)) {
+                console.log("nothing is currently playing right now")
+                spotifyWebApi.play((response) => {
+                    console.log("play");
+                })
+            }
+            else {
+                console.log(response.is_playing)
+                console.log(response.item.name)
+                console.log(response.item.artists[0].name)
+                console.log(response.item.id)
+                spotifyWebApi.pause((response) => {
+                    console.log(response, "stop");
+                })
+            }
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+
+        if (!window.YT) {
+            const tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api'
+            window.onYouTubeIframeAPIReady = this.loadVideo;
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
+        else {
+            this.loadVideo();
+        }
+    }
+
+    loadVideo = () => {
+        this.player = new window.YT.Player('player', {
+            height: '640',
+            width: '1320',
+            videoId: 'M7lc1UVf-VE',
+            playerVars: {
+                controls: 1,
+                autoplay: 0,
+                disablekb: 1,
+                enablejsapi: 1,
+            },
+            events: {
+                'onReady': this.onPlayerReady,
+                'onStateChange': this.onPlayerStateChange,
+            }
+        });
+    }
+    shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
         }
     }
 
@@ -60,10 +100,10 @@ class Youtube extends Component {
         if (e.data === window.YT.PlayerState.PLAYING) {
             console.log('playing')
         }
-        if (e.data == window.YT.PlayerState.PAUSED) {
+        if (e.data === window.YT.PlayerState.PAUSED) {
             console.log("YouTube Video is PAUSED!!");
         }
-        if (e.data == window.YT.PlayerState.ENDED) {
+        if (e.data === window.YT.PlayerState.ENDED) {
             console.log("YouTube Video is ENDING!!");
         }
 
@@ -93,6 +133,9 @@ class Youtube extends Component {
                         Back
                     </Button>
                 </Link>
+                <Button className="spotify-youtube-back-button"> Play </Button>
+                <Button className="spotify-youtube-back-button"> Next1 </Button>
+                <Button className="spotify-youtube-back-button"> Next2</Button>
                  <div id="player"></div>
             </div>
         )

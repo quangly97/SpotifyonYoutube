@@ -9,12 +9,13 @@ const spotifyWebApi = new Spotify();
 class App extends Component {
   constructor(props) {
     super(props);
-    const params = this.getHashParams();
+    this.params = this.getHashParams();
     this.state = {
-      loggedIn: params.access_token ? true : false,
+      loggedIn: this.params.access_token ? true : false,
     };
-    if (params.access_token) {
-      spotifyWebApi.setAccessToken(params.access_token)
+    if (this.params.access_token) {
+      spotifyWebApi.setAccessToken(this.params.access_token)
+      localStorage.setItem("access_token", this.params.access_token)
     }
   }
   getHashParams() {
@@ -31,8 +32,8 @@ class App extends Component {
       <div>
         <Router>
           <Switch>
-            <Route path="/youtube" component={Youtube} /> 
-            <Route path="/pickPlaylist" component={PickPlaylist} />
+            <Route path="/youtube" component={Youtube}/>
+            <Route path="/pickPlaylist" component={PickPlaylist}/>
             <Route path="/" component={Home} />
           </Switch>
         </Router> 

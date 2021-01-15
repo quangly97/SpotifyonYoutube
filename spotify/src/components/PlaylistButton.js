@@ -1,7 +1,7 @@
 import React, { Component} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Spotify from "spotify-web-api-js";
-import {withRouter, Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {Button} from "react-bootstrap";
 import "../css/pickPlaylist.css"
 
