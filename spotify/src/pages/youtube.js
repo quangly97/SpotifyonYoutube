@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import PlaylistButton from "../components/PlaylistButton"
 import {Link} from "react-router-dom"
 import { Button } from "react-bootstrap";
 import "../css/pickPlaylist.css"
@@ -10,24 +9,32 @@ const spotifyWebApi =  new Spotify();
 class Youtube extends Component {
     constructor(props) {
         super(props);
+        if  (this.props.location.tracks) {
+            localStorage.setItem("tracks",  JSON.stringify(this.props.location.tracks))
+            localStorage.setItem("playlist", this.props.location.playlistName)
+        }
         // if (this.props.history.tracks) {
         //     localStorage.setItem("tracks", this.props.history.tracks)
         // }
         this.state = {
             apiKey: "AIzaSyAUlBPBvCwXcYNNahVcmWPKphhIs4YjaWQ",
             playingstate: "",
-            // search_terms: localStorage.getItem("tracks").map((track) => {
-            //     return track.artists[0] + " " + track.track_name;
-            // }),
+            search_terms: localStorage.getItem("tracks") ? 
+            this.shuffleArray(JSON.parse(localStorage.getItem("tracks"))).map((track) => {
+                return track.artists[0] + " " + track.track_name;
+            }) : "",
             query_IDs: [],
         }
         spotifyWebApi.setAccessToken(localStorage.getItem("access_token"));
         const opts = {
             height: '400',
             width: '640',
+            origin: "https://localhost:8000",
+            widget_referrer: "https://localhost:8000",
             playerVars: {
                 enablejsapi: 1,
                 playlist: [],
+
             }
         }
 
@@ -36,11 +43,11 @@ class Youtube extends Component {
     }
     componentDidMount() {
         spotifyWebApi.getMyCurrentPlaybackState().then((response) => {
-            console.log()
-            if (response === null) {
+            console.log(response)
+            if (response === "") {
                 console.log("nothing has been playing for the past 15 minutes")
             }
-            else if ((response !== null) & (response.is_playing===false)) {
+            else if ((response !== "") & (response.is_playing===false)) {
                 console.log("nothing is currently playing right now")
                 spotifyWebApi.play((response) => {
                     console.log("play");
@@ -74,6 +81,7 @@ class Youtube extends Component {
 
     loadVideo = () => {
         this.player = new window.YT.Player('player', {
+            host: "https://www.youtube.com",
             height: '640',
             width: '1320',
             videoId: 'M7lc1UVf-VE',
@@ -82,6 +90,7 @@ class Youtube extends Component {
                 autoplay: 0,
                 disablekb: 1,
                 enablejsapi: 1,
+                origin: "https://localhost:3000"
             },
             events: {
                 'onReady': this.onPlayerReady,
@@ -94,6 +103,7 @@ class Youtube extends Component {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
         }
+        return array
     }
 
     onPlayerStateChange(e) {
@@ -134,8 +144,9 @@ class Youtube extends Component {
                     </Button>
                 </Link>
                 <Button className="spotify-youtube-back-button"> Play </Button>
-                <Button className="spotify-youtube-back-button"> Next1 </Button>
-                <Button className="spotify-youtube-back-button"> Next2</Button>
+                <Button className="spotify-youtube-back-button">  {this.state.search_terms[0]} </Button>
+                <Button className="spotify-youtube-back-button"> {this.state.search_terms[1]}</Button>
+                <Button className="spotify-youtube-back-button"> {this.state.search_terms[2]}</Button>
                  <div id="player"></div>
             </div>
         )

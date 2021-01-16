@@ -59,7 +59,6 @@ class PlaylistButton extends Component {
     render () {
         return(
             <div className="playlist-button-and-image-container">
-
             <Link to= {{
                 pathname: "/youtube",
                 playlistID: this.state.playlistID,
