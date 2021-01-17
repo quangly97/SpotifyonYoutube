@@ -50,6 +50,7 @@ app.get("/login", function (req, res) {
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
+        show_dialog: true,
         response_type: "code",
         client_id: client_id,
         scope: scope,
@@ -109,7 +110,7 @@ app.get("/callback", function (req, res) {
 
         // we can also pass the token to the browser to make requests from there
         res.redirect(
-          "http://localhost:3000/pickPlaylist/#" +
+          "http://localhost:3000/modes/#" +
             querystring.stringify({
               access_token: access_token,
               refresh_token: refresh_token,

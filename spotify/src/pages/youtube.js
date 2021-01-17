@@ -10,21 +10,23 @@ class Youtube extends Component {
     constructor(props) {
         super(props);
         if  (this.props.location.tracks) {
-            localStorage.setItem("tracks",  JSON.stringify(this.props.location.tracks))
-            localStorage.setItem("playlist", this.props.location.playlistName)
+            localStorage.setItem("tracks",  JSON.stringify(this.shuffleArray(this.props.location.tracks)))
+            localStorage.setItem("playlist", JSON.stringify(this.props.location.playlistName))
+            localStorage.setItem("length", JSON.stringify(this.props.location.tracks.length))
         }
-        // if (this.props.history.tracks) {
-        //     localStorage.setItem("tracks", this.props.history.tracks)
-        // }
+
         this.state = {
             apiKey: "AIzaSyAUlBPBvCwXcYNNahVcmWPKphhIs4YjaWQ",
             playingstate: "",
             search_terms: localStorage.getItem("tracks") ? 
-            this.shuffleArray(JSON.parse(localStorage.getItem("tracks"))).map((track) => {
-                return track.artists[0] + " " + track.track_name;
+            JSON.parse(localStorage.getItem("tracks")).map((track, index) => {
+                return [track.artists[0] + " - " + track.track_name, track.id, index];
             }) : "",
-            query_IDs: [],
+            current_playing: 2,
+            length: JSON.parse(localStorage.getItem("length")),
+            query_ID: [],
         }
+
         spotifyWebApi.setAccessToken(localStorage.getItem("access_token"));
         const opts = {
             height: '400',
@@ -42,6 +44,10 @@ class Youtube extends Component {
         this.loadVideo = this.loadVideo.bind(this)
     }
     componentDidMount() {
+        for (let i=0; i< this.state.search_terms.length; i++) {
+            this.search(this.state.search_terms[i][0], this.state.search_terms[i][1])
+        }
+        console.log(this.state.query_ID)
         spotifyWebApi.getMyCurrentPlaybackState().then((response) => {
             console.log(response)
             if (response === "") {
@@ -79,7 +85,7 @@ class Youtube extends Component {
         }
     }
 
-    loadVideo = () => {
+    loadVideo = (id) => {
         this.player = new window.YT.Player('player', {
             host: "https://www.youtube.com",
             height: '640',
@@ -116,25 +122,36 @@ class Youtube extends Component {
         if (e.data === window.YT.PlayerState.ENDED) {
             console.log("YouTube Video is ENDING!!");
         }
-
-
     }
 
     onPlayerReady(e) {
         e.target.playVideo();
     }
-    async search(query, index) {
-        await axios
+    async search(query) {
+        axios
         .get("https://www.googleapis.com/youtube/v3/search?key=" + this.state.apiKey + "&q=" + query + "&part=snippet&maxResults=2&type=video")
         .then((response) => {
+            var joined = this.state.query_ID.concat(response.data.items[0].id.videoId);
             this.setState({
-                 query_IDs: this.state.query_IDs.push([index, query, response.data.items[0].id.videoId])
+                query_ID: joined, 
+            }, () => {
+                console.log(this.state.query_ID)
             })
         })
         .catch((error) => {
             console.log(error)
         });
     } 
+
+    createButtons() {
+        var button_list = []
+        for (let i=this.state.current_playing-1; i < 4; i++) {
+            if ((i >= 0)  & (i < this.state.length)) {
+                button_list.push(<Button className="spotify-youtube-back-button" key={this.state.search_terms[i][1]}>  {this.state.search_terms[i][0]} </Button>)
+            }
+        }
+        return button_list
+    }
     render() {
         return(
             <div>
@@ -144,9 +161,12 @@ class Youtube extends Component {
                     </Button>
                 </Link>
                 <Button className="spotify-youtube-back-button"> Play </Button>
-                <Button className="spotify-youtube-back-button">  {this.state.search_terms[0]} </Button>
-                <Button className="spotify-youtube-back-button"> {this.state.search_terms[1]}</Button>
-                <Button className="spotify-youtube-back-button"> {this.state.search_terms[2]}</Button>
+                <div>
+                    {this.createButtons()}
+                </div>
+                {/* <Button className="spotify-youtube-back-button">  {this.state.search_terms[this.state.current_playing-1][0]} </Button>
+                <Button className="spotify-youtube-back-button"> {this.state.search_terms[this.state.current_playing][0]}</Button>
+                <Button className="spotify-youtube-back-button"> {this.state.search_terms[this.state.current_playing+1][0]}</Button> */}
                  <div id="player"></div>
             </div>
         )

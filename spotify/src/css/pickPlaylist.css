@@ -21,10 +21,10 @@
 }
 
 .playlists-container {
-  margin-top: 20px;
+  margin-top: 50px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: left;
+  justify-content: center;
 }
 
 .playlist-button-and-image-container {

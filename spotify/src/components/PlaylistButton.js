@@ -50,6 +50,7 @@ class PlaylistButton extends Component {
                     duration: item.track.duration_ms,
                     track_name: item.track.name,
                     date: item.added_at,
+                    id: item.track.id,
                 }
             })
         })
