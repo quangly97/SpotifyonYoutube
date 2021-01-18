@@ -14,6 +14,7 @@ class App extends Component {
     this.state = {
       loggedIn: this.params.access_token ? true : false,
     };
+    // If access token is available, store it in local storage
     if (this.params.access_token) {
       spotifyWebApi.setAccessToken(this.params.access_token)
       localStorage.setItem("access_token", this.params.access_token)
