@@ -133,7 +133,6 @@ class Youtube extends Component {
             this.setState({
                 query_IDs: changed, 
             }, () => {
-                console.log(this.state.query_IDs)
             })
         })
         .catch((error) => {
@@ -148,16 +147,27 @@ class Youtube extends Component {
         var playlist_tracks = this.state.search_terms;
 
         if (current_index >= 1) {
-            button_list.push(button_list.push(<Button className="spotify-youtube-previous-button" key={playlist_tracks[current_index-1][1]}>  {playlist_tracks[current_index-1][0]} </Button>))
+            button_list.push(<Button onClick={() => {this.handleQueueClick(current_index-1)}} className="spotify-youtube-previous-button" key={playlist_tracks[current_index-1][1]}>  {playlist_tracks[current_index-1][0]} </Button>)
         }
         button_list.push(<Button className="spotify-youtube-current-button" key={playlist_tracks[current_index][1]}>  {playlist_tracks[current_index][0]} </Button>)
         
         for (let i=current_index+1; i < current_index+5; i++) {
             if (i < size-1) {
-                button_list.push(<Button className="spotify-youtube-next-buttons" key={playlist_tracks[i][1]}>  {playlist_tracks[i][0]} </Button>)
+                button_list.push(<Button onClick={() => {this.handleQueueClick(i)}} className="spotify-youtube-next-buttons" key={playlist_tracks[i][1]}>  {playlist_tracks[i][0]} </Button>)
             }
         }
         return button_list
+    }
+
+    handleQueueClick(index) {
+        this.setState({
+            current_index: index,
+        })
+        if (this.state.query_IDs[index] === null) {
+            this.search(this.state.search_terms[index])
+        }
+        this.loadVideo(this.state.query_IDs[index])
+
     }
     render() {
         return(
