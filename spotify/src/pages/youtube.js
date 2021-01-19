@@ -2,71 +2,63 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import {Link} from "react-router-dom"
 import { Button } from "react-bootstrap";
-import "../css/pickPlaylist.css"
+import "../css/youtube.css"
 import Spotify from 'spotify-web-api-js'
 
 const spotifyWebApi =  new Spotify();
 class Youtube extends Component {
     constructor(props) {
         super(props);
+        // Get access token to make calls
+        spotifyWebApi.setAccessToken(localStorage.getItem("access_token"));
+
+        // Start off by saving details of this playlist to localstorage if it is available
         if  (this.props.location.tracks) {
             localStorage.setItem("tracks",  JSON.stringify(this.shuffleArray(this.props.location.tracks)))
             localStorage.setItem("playlist", JSON.stringify(this.props.location.playlistName))
             localStorage.setItem("length", JSON.stringify(this.props.location.tracks.length))
         }
-
+        // Search Terms syntax is - ["title", "spotify-id", index in the search-terms array]
         this.state = {
             apiKey: "AIzaSyAUlBPBvCwXcYNNahVcmWPKphhIs4YjaWQ",
-            playingstate: "",
             search_terms: localStorage.getItem("tracks") ? 
             JSON.parse(localStorage.getItem("tracks")).map((track, index) => {
                 return [track.artists[0] + " - " + track.track_name, track.id, index];
             }) : "",
-            current_playing: 2,
+            current_index: 0,
             length: JSON.parse(localStorage.getItem("length")),
-            query_ID: [],
-        }
-
-        spotifyWebApi.setAccessToken(localStorage.getItem("access_token"));
-        const opts = {
-            height: '400',
-            width: '640',
-            origin: "https://localhost:8000",
-            widget_referrer: "https://localhost:8000",
-            playerVars: {
-                enablejsapi: 1,
-                playlist: [],
-
-            }
+            query_IDs: new Array(JSON.parse(localStorage.getItem("length")))
         }
 
         this.search = this.search.bind(this)
         this.loadVideo = this.loadVideo.bind(this)
     }
     componentDidMount() {
-        for (let i=0; i< this.state.search_terms.length; i++) {
-            this.search(this.state.search_terms[i][0], this.state.search_terms[i][1])
+        // Create this.state.query_IDs by running Youtube API search
+        for (let i=0; i<5; i++) {
+            if (i < this.state.length) {
+                this.search(this.state.search_terms[i])
+            }
         }
-        console.log(this.state.query_ID)
+
         spotifyWebApi.getMyCurrentPlaybackState().then((response) => {
-            console.log(response)
             if (response === "") {
                 console.log("nothing has been playing for the past 15 minutes")
             }
             else if ((response !== "") & (response.is_playing===false)) {
                 console.log("nothing is currently playing right now")
-                spotifyWebApi.play((response) => {
-                    console.log("play");
-                })
+                // spotifyWebApi.play((response) => {
+                //     console.log("play");
+                // })
             }
             else {
                 console.log(response.is_playing)
                 console.log(response.item.name)
                 console.log(response.item.artists[0].name)
                 console.log(response.item.id)
-                spotifyWebApi.pause((response) => {
-                    console.log(response, "stop");
-                })
+                // spotifyWebApi.pause((response) => {
+                //     console.log(response, "stop");
+                // })
             }
         })
         .catch((error) => {
@@ -83,6 +75,7 @@ class Youtube extends Component {
         else {
             this.loadVideo();
         }
+
     }
 
     loadVideo = (id) => {
@@ -90,7 +83,7 @@ class Youtube extends Component {
             host: "https://www.youtube.com",
             height: '640',
             width: '1320',
-            videoId: 'M7lc1UVf-VE',
+            videoId: 'oYKwotHRdHo',
             playerVars: {
                 controls: 1,
                 autoplay: 0,
@@ -127,15 +120,20 @@ class Youtube extends Component {
     onPlayerReady(e) {
         e.target.playVideo();
     }
-    async search(query) {
+
+    async search(search_term) {
+        var query = search_term[0]
         axios
-        .get("https://www.googleapis.com/youtube/v3/search?key=" + this.state.apiKey + "&q=" + query + "&part=snippet&maxResults=2&type=video")
+        .get("https://www.googleapis.com/youtube/v3/search?key=" + this.state.apiKey + "&q=" + query + "&part=snippet&maxResults=1&type=video")
         .then((response) => {
-            var joined = this.state.query_ID.concat(response.data.items[0].id.videoId);
+            // var joined = this.state.query_IDs.concat(response.data.items[0].id.videoId);
+            var changed = this.state.query_IDs
+            // search_term[2]] is the index of the original search. Set that same index in the query_IDS to the youtube-video-id
+            changed[search_term[2]] = response.data.items[0].id.videoId
             this.setState({
-                query_ID: joined, 
+                query_IDs: changed, 
             }, () => {
-                console.log(this.state.query_ID)
+                console.log(this.state.query_IDs)
             })
         })
         .catch((error) => {
@@ -145,9 +143,18 @@ class Youtube extends Component {
 
     createButtons() {
         var button_list = []
-        for (let i=this.state.current_playing-1; i < 4; i++) {
-            if ((i >= 0)  & (i < this.state.length)) {
-                button_list.push(<Button className="spotify-youtube-back-button" key={this.state.search_terms[i][1]}>  {this.state.search_terms[i][0]} </Button>)
+        var current_index = this.state.current_index;
+        var size = this.state.length;
+        var playlist_tracks = this.state.search_terms;
+
+        if (current_index >= 1) {
+            button_list.push(button_list.push(<Button className="spotify-youtube-previous-button" key={playlist_tracks[current_index-1][1]}>  {playlist_tracks[current_index-1][0]} </Button>))
+        }
+        button_list.push(<Button className="spotify-youtube-current-button" key={playlist_tracks[current_index][1]}>  {playlist_tracks[current_index][0]} </Button>)
+        
+        for (let i=current_index+1; i < current_index+5; i++) {
+            if (i < size-1) {
+                button_list.push(<Button className="spotify-youtube-next-buttons" key={playlist_tracks[i][1]}>  {playlist_tracks[i][0]} </Button>)
             }
         }
         return button_list
@@ -155,18 +162,14 @@ class Youtube extends Component {
     render() {
         return(
             <div>
-                <Link to="/pickPlaylist">
-                    <Button className="spotify-youtube-back-button">
-                        Back
-                    </Button>
-                </Link>
-                <Button className="spotify-youtube-back-button"> Play </Button>
-                <div>
+                <div className="button-container">
+                    <Link to="/pickPlaylist">
+                        <Button className="spotify-youtube-back-button">
+                            Back
+                        </Button>
+                    </Link>
                     {this.createButtons()}
                 </div>
-                {/* <Button className="spotify-youtube-back-button">  {this.state.search_terms[this.state.current_playing-1][0]} </Button>
-                <Button className="spotify-youtube-back-button"> {this.state.search_terms[this.state.current_playing][0]}</Button>
-                <Button className="spotify-youtube-back-button"> {this.state.search_terms[this.state.current_playing+1][0]}</Button> */}
                  <div id="player"></div>
             </div>
         )
@@ -179,3 +182,15 @@ class Youtube extends Component {
 export default Youtube
 
 // https://github.com/tjallingt/react-youtube
+
+        // const opts = {
+        //     height: '400',
+        //     width: '640',
+        //     origin: "https://localhost:8000",
+        //     widget_referrer: "https://localhost:8000",
+        //     playerVars: {
+        //         enablejsapi: 1,
+        //         playlist: [],
+
+        //     }
+        // }

@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   margin: 0 auto;
-  margin-top: 120px;
+  margin-top: 200px;
 }
 
 .modes-container {
@@ -11,7 +11,7 @@
   justify-content: center;
 }
 .dynamic-button-and-image-container {
-  margin-right: 50px;
+  margin-right: 120px;
 }
 
 .playlist-image,
@@ -44,6 +44,28 @@
   border-color: #19720b;
   line-height: 0.9;
   border-radius: 3px 3px 0px 0px;
+}
+
+.dynamic-button:hover,
+.playlist-button:hover {
+  opacity: 0.8;
+  background-color: #ff0000;
+  border-color: #ff0000;
+  font-family: "Montserrat", sans-serif;
+}
+
+.dynamic-image:hover,
+.playlist-image:hover {
+  opacity: 0.6;
+}
+
+.playlist-button-and-image-container,
+.dynamic-button-and-image-container {
+  margin-right: 30px;
+  margin-bottom: 20px;
+  justify-content: left;
+  animation: fadeIn;
+  animation-duration: 1.5s;
 }
 
 /* 

@@ -13,29 +13,11 @@ class PickPlaylist extends Component {
             playlists: [],
         }
         this.getPlaylists = this.getPlaylists.bind(this);
-        this.handleScroll = this.handleScroll.bind(this);
         spotifyWebApi.setAccessToken(localStorage.getItem("access_token"))
         
     }
-    componentWillMount() {
-        window.addEventListener('scroll', this.handleScroll);
-    }
     componentDidMount() {
         this.getPlaylists()
-    }
-    componentWillUnmount () {
-        window.removeEventListener('scroll', this.handleScroll);
-    }
-    handleScroll (e) {
-        let lastScrollTop = 0;
-        const currentScrollTop = PlaylistNavigation.scrollTop;
-
-        if (!this.state.hidden && currentScrollTop > lastScrollTop) {
-          this.setState({ hidden: true });
-        } else if(this.state.hidden) {
-          this.setState({ hidden: false });
-        }
-        lastScrollTop = currentScrollTop;
     }
     getPlaylists () {
         spotifyWebApi.getUserPlaylists()

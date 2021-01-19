@@ -1,0 +1,67 @@
+.button-container {
+  width: 1000px;
+  display: flex;
+  flex: wrap;
+  margin-top: 2px;
+  margin-bottom: 40px;
+}
+
+.spotify-youtube-back-button,
+.spotify-youtube-play-button {
+  display: flex;
+  justify-content: center;
+  width: 100px;
+  height: 30px;
+  text-align: center;
+  align-items: center;
+  font-size: 50%;
+  font-family: "Montserrat", bold;
+  background-color: #19720b;
+  border-color: #19720b;
+  line-height: 0.9;
+  border-radius: 3px 3px 0px 0px;
+}
+
+.spotify-youtube-previous-button {
+  margin-right: 50px;
+}
+
+.spotify-youtube-current-button {
+  display: flex;
+  justify-content: center;
+  width: 150px;
+  height: 30px;
+  text-align: center;
+  align-items: center;
+  font-size: 50%;
+  font-family: "Montserrat", bold;
+  background-color: red;
+  border-color: red;
+  line-height: 0.9;
+  border-radius: 3px 3px 0px 0px;
+  margin-right: 50px;
+}
+
+.spotify-youtube-previous-button,
+.spotify-youtube-next-buttons {
+  display: flex;
+  justify-content: center;
+  width: 150px;
+  height: 30px;
+  text-align: center;
+  align-items: center;
+  font-size: 50%;
+  font-family: "Montserrat", bold;
+  background-color: #19720b;
+  border-color: #19720b;
+  line-height: 0.9;
+  border-radius: 3px 3px 0px 0px;
+}
+
+.spotify-youtube-back-button {
+  margin-right: 30px;
+}
+
+.spotify-youtube-play-button {
+  margin-right: 100px;
+}

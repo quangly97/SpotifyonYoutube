@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
     Button,
-    Card
   } from "react-bootstrap";
+import {Link} from 'react-router-dom';
 import "../css/modes.css"
 
 
@@ -15,11 +15,13 @@ class Modes extends Component {
                 <div className="modes-container">
                     <div className="dynamic-button-and-image-container">
                         <Button className="dynamic-button"> Dynamic </Button>
-                        <img className="dynamic-image" src={require("../images/dynamic.jpg")} alt="Playlist Picture"/>
+                        <img className="dynamic-image" src={require("../images/dynamic.jpg")} alt=""/>
                     </div>
                     <div className="playlist-button-and-image-container">
-                        <Button className="playlist-button"> Playlist </Button>
-                        <img className="playlist-image" src={require("../images/monkey-with-headphones.jpg")} alt="Playlist Picture"/>
+                        <Link to="/pickPlaylist">
+                            <Button className="playlist-button"> Playlist </Button>
+                            <img className="playlist-image" src={require("../images/monkey-with-headphones.jpg")} alt=""/>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -28,15 +30,3 @@ class Modes extends Component {
 }
 
 export default Modes
-
-{/* <div className="dynamic-button-container">
-<div className="dynamic-button-inner">
-    <div className="dynamic-button-front">
-        <Button className="dynamic-button"> Dynamic</Button>
-        <img className="dynamic-image" src={require("../images/dynamic.jpg")} alt="Dynamic Picture" />
-    </div>
-    <div className="dynamic-button-back">
-        <p> Description for dynamic</p>
-    </div>
-</div>
-</div> */}

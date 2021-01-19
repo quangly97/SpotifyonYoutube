@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../css/playlistNavigation.css"
 import { Navbar, Button } from "react-bootstrap";
 
 class PlaylistNavbar extends Component {
