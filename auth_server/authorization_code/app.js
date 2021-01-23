@@ -12,17 +12,23 @@ var request = require("request"); // "Request" library
 var cors = require("cors");
 var querystring = require("querystring");
 var cookieParser = require("cookie-parser");
+<<<<<<< HEAD
 var bodyParser = require('body-parser')
 const puppeteer = require('puppeteer')
 const { Cluster } = require('puppeteer-cluster');
 
+=======
+>>>>>>> 45b26e6091a3257845c1906bae3804d3bb74c5ca
 
 var client_id = "f5015c8336214507b109279c338a098e"; // Your client id
 var client_secret = "dd067e38447f41a99d31021e5b4f5941"; // Your secret
 var redirect_uri = "http://localhost:8888/callback/"; // Your redirect uri
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 45b26e6091a3257845c1906bae3804d3bb74c5ca
 /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
@@ -46,14 +52,22 @@ var app = express();
 app
   .use(express.static(__dirname + "/public"))
   .use(cors())
+<<<<<<< HEAD
   .use(cookieParser())
   .use(bodyParser.json());
+=======
+  .use(cookieParser());
+>>>>>>> 45b26e6091a3257845c1906bae3804d3bb74c5ca
 
 app.get("/login", function (req, res) {
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
   // your application requests authorization
+<<<<<<< HEAD
   var scope = "user-read-private user-read-email user-read-playback-state user-modify-playback-state user-read-recently-played";
+=======
+  var scope = "user-read-private user-read-email user-read-playback-state user-modify-playback-state";
+>>>>>>> 45b26e6091a3257845c1906bae3804d3bb74c5ca
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
@@ -162,6 +176,7 @@ app.get("/refresh_token", function (req, res) {
   });
 });
 
+<<<<<<< HEAD
 
 app.post("/youtube_search",  (req, res) => {
   (async function(){
@@ -236,5 +251,7 @@ app.post("/youtube_search",  (req, res) => {
   })()
 })
 
+=======
+>>>>>>> 45b26e6091a3257845c1906bae3804d3bb74c5ca
 console.log("Listening on 8888");
 app.listen(8888);
