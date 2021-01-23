@@ -1,0 +1,42 @@
+.dynamic-lyric-button {
+  height: 16px;
+  margin-left: 50px;
+  display: flex;
+  justify-content: center;
+  width: 140px;
+  text-align: center;
+  align-items: center;
+  font-size: 50%;
+  font-family: "Montserrat", bold;
+  background-color: #19720b;
+  border-color: #19720b;
+  line-height: 0.9;
+  border-radius: 3px 3px 0px 0px;
+}
+
+.dynamic-lyric-button:hover {
+  background-color: red;
+  border-color: red;
+}
+
+.invisible {
+  background: transparent;
+  border: none;
+  outline: none;
+  display: block;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}
+
+.player-container {
+  display: flex;
+  flex: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+#player {
+  margin-top: 50px;
+}
