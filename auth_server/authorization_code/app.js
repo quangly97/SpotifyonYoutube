@@ -19,7 +19,7 @@ const { Cluster } = require('puppeteer-cluster');
 var port = process.env.PORT || 8888
 var client_id = "f5015c8336214507b109279c338a098e"; // Your client id
 var client_secret = "dd067e38447f41a99d31021e5b4f5941"; // Your secret
-var redirect_uri = "http://localhost:8888/callback/"; // Your redirect uri
+var redirect_uri = "http://localhost:" + port + "/callback/"; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
