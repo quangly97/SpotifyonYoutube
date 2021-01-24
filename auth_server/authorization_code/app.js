@@ -16,7 +16,7 @@ var bodyParser = require('body-parser')
 const puppeteer = require('puppeteer')
 const { Cluster } = require('puppeteer-cluster');
 
-var port = porcess.env.PORT || 8888
+var port = process.env.PORT || 8888
 j
 var client_id = "f5015c8336214507b109279c338a098e"; // Your client id
 var client_secret = "dd067e38447f41a99d31021e5b4f5941"; // Your secret
