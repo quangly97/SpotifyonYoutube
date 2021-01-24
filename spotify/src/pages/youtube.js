@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import {Link} from "react-router-dom"
+import {Link, useLocation, withRouter} from "react-router-dom";
 import { Button, Spinner} from "react-bootstrap";
 import "../css/youtube.css"
 import Spotify from 'spotify-web-api-js'
@@ -19,6 +19,9 @@ class Youtube extends Component {
             localStorage.setItem("playlist", JSON.stringify(this.props.location.playlistName))
             localStorage.setItem("length", JSON.stringify(this.props.location.tracks.length))
         }
+
+        console.log(this.props.location.tracks)
+        
         // Search Terms syntax is - ["title", "spotify-id", index in the search-terms array]
         this.state = {
             apiKey: "AIzaSyAUlBPBvCwXcYNNahVcmWPKphhIs4YjaWQ",
@@ -32,8 +35,12 @@ class Youtube extends Component {
             lyric_IDs: Array(JSON.parse(localStorage.getItem("length"))).fill(0),
             lyric: false,
             last_updated: 0,
-
+            fetching: false
         }
+
+        console.log(this.state.search_terms)
+
+        this._isMounted = false;
 
         this.search2 = this.search2.bind(this)
         this.loadVideo = this.loadVideo.bind(this)
@@ -42,7 +49,6 @@ class Youtube extends Component {
     }
     async componentDidMount() {
         await this.search2(0, Math.min(10, this.state.length));
-        console.log(this.state.query_IDs[0])
         if (!window.YT) {
             const tag = document.createElement('script');
             tag.src = 'https://www.youtube.com/iframe_api'
@@ -83,17 +89,10 @@ class Youtube extends Component {
     }
 
     onPlayerReady(e) {
-        console.log(e)
         e.target.playVideo();
     }
 
     onPlayerStateChange(e) {
-        if (e.data === window.YT.PlayerState.PLAYING) {
-            console.log('playing')
-        }
-        if (e.data === window.YT.PlayerState.PAUSED) {
-            console.log("YouTube Video is PAUSED!!");
-        }
         if (e.data === window.YT.PlayerState.ENDED) {
             console.log("YouTube Video is ENDING!!");
             this.handleQueueClick(this.state.current_index+1);
@@ -117,8 +116,10 @@ class Youtube extends Component {
             lyric_IDs: this.state.lyric_IDs,
         }
         this.setState({
-            fetching: true,
+             fetching: true
         })
+
+        this._isMounted = true;
         const response = await fetch('http://localhost:8888/youtube_search', { 
                 method: 'POST',
                 signal: signal,
@@ -128,16 +129,16 @@ class Youtube extends Component {
             },
             body: JSON.stringify(data),
         })
-        const body = await response.json()
-        this.setState(
-            {
+        if (this._isMounted) {
+            const body = await response.json()
+            this.setState({
                 query_IDs: body.query_IDs,
                 lyric_IDs: body.lyric_IDs,
                 last_updated: end,
-                fetching: false,
+                fetching: false        
             })
-        
-        console.log(body)
+            this._isMounted = false
+        }
     }
     
     async search(search_term) {
@@ -203,14 +204,9 @@ class Youtube extends Component {
         })
     }
 
-    async componentWillUnmount() {
-        if (this.fetching) {
-            console.log("abort");
-            await this.controller.abort()
-            
-        }
-        this.fetching = false
-
+    componentWillUnmount() {
+        this.controller.abort()
+        this._isMounted = false
     }
 
     render() {
@@ -258,4 +254,4 @@ class Youtube extends Component {
 
   
 
-export default Youtube
+export default  withRouter(Youtube)

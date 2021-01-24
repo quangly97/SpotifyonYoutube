@@ -1,0 +1,1 @@
+web: nodemon auth_server/authorization_code/app.js

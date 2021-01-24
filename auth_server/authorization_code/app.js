@@ -163,8 +163,6 @@ app.get("/refresh_token", function (req, res) {
 
 app.post("/youtube_search",  (req, res) => {
   (async function(){
-    
-    console.log(req.body)
     // Settings to make puppeteer faster
     const options = {
       args: [
@@ -182,7 +180,8 @@ app.post("/youtube_search",  (req, res) => {
     // Launch concurrent puppeteer
     const cluster = await Cluster.launch({
       concurrency: Cluster.CONCURRENCY_PAGE,
-      maxConcurrency: 4,
+      maxConcurrency: 10,
+      retryLimit: 3,
     });
     var query_IDs = req.body.query_IDs
     var lyric_IDs = req.body.lyric_IDs
@@ -194,6 +193,8 @@ app.post("/youtube_search",  (req, res) => {
       var href = await el.getProperty('href')
       var hreftext = await href.jsonValue();
       var youtube_id = hreftext.split("?v=")[1]
+      console.log(youtube_id)
+
       if (data.lyric === false) {
         query_IDs[data.index] = youtube_id;
       }
@@ -207,20 +208,22 @@ app.post("/youtube_search",  (req, res) => {
     var i = 0, len = req.body.search_terms.length;
     while (i < len) {
       base = req.body.search_terms[i][0].split(" ").join("+").replace(/&/g, "+")
-      console.log(base)
       query = base + "+official+video"
       lyric = base + "+lyric+video"
-      console.log(req.body.search_terms[i][0])
-      cluster.queue({
-        url: "https://www.youtube.com/results?search_query=" + query, 
-        index: req.body.search_terms[i][2],
-        lyric: false
-      })
-      cluster.queue({
-        url: "https://www.youtube.com/results?search_query=" + lyric, 
-        index: req.body.search_terms[i][2],
-        lyric: true
-      })
+      if (query_IDs[req.body.search_terms[i][2]] === 0) {
+        cluster.queue({
+          url: "https://www.youtube.com/results?search_query=" + query, 
+          index: req.body.search_terms[i][2],
+          lyric: false
+        })
+      }
+      if (lyric_IDs[req.body.search_terms[i][2]] === 0) {
+        cluster.queue({
+          url: "https://www.youtube.com/results?search_query=" + lyric, 
+          index: req.body.search_terms[i][2],
+          lyric: true
+        })
+      }
       i++
     }
     
