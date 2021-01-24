@@ -47,6 +47,10 @@ app
   .use(cookieParser())
   .use(bodyParser.json());
 
+app.get("/", (req, res) => {
+  res.render("index")
+})
+
 app.get("/login", function (req, res) {
   var state = generateRandomString(16);
   res.cookie(stateKey, state);

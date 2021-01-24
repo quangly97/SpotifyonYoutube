@@ -4,7 +4,8 @@
   "description": "Plays music or lyric videos from songs on your Spotify playlist so you can watch while you listen!\r Done in React.js and Node.js",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon auth_server/authorization_code/app.js"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
