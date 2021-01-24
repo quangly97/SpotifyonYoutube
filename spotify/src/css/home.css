@@ -44,7 +44,7 @@
   font-family: "Montserrat", sans-serif;
 }
 
-.spotify-youtube-card-button:active {
+.spotify-youtube-card-button:active:after {
   background-color: #ff0000;
   border-color: #ff0000;
   font-family: "Montserrat", sans-serif;

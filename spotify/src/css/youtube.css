@@ -1,5 +1,4 @@
 .button-container {
-<<<<<<< HEAD
   width: 100%;
   display: flex;
   flex: wrap;
@@ -22,25 +21,6 @@
   display: flex;
   justify-content: center;
   width: 140px;
-=======
-  width: 1000px;
-  display: flex;
-  flex: wrap;
-  margin-top: 2px;
-  margin-bottom: 40px;
-}
-.spotify-youtube-back-button {
-  margin-right: 30px;
-}
-
-.spotify-youtube-back-button,
-.spotify-youtube-previous-button,
-.spotify-youtube-current-button,
-.spotify-youtube-next-buttons {
-  display: flex;
-  justify-content: center;
-  width: 100px;
->>>>>>> 45b26e6091a3257845c1906bae3804d3bb74c5ca
   height: 30px;
   text-align: center;
   align-items: center;
@@ -61,7 +41,6 @@
   border-color: red;
   margin-left: 0px;
 }
-<<<<<<< HEAD
 .youtube-lyric-button:disabled,
 .spotify-youtube-previous-button:disabled,
 .spotify-youtube-current-button:disabled,
@@ -104,5 +83,3 @@
   justify-content: center;
   margin-left: 50%;
 }
-=======
->>>>>>> 45b26e6091a3257845c1906bae3804d3bb74c5ca

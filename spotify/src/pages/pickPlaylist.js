@@ -29,15 +29,18 @@ class PickPlaylist extends Component {
     }
     render() {
         return(
-            <div className="playlist-page">
+            <div>
                 <NavigationBar back="modes"> </NavigationBar>
-                {/* <div className="pick-a-playlist-text">
-                    Pick a playlist
-                </div> */}
-                <div className="playlists-container">
-                    {this.state.playlists.map((playlist, index) => (
-                        <PlaylistButton key={playlist.name} id={playlist.id} index={index} name={playlist.name} image={playlist.images[0].url}></PlaylistButton>
-                        ))}
+                <div className="playlist-page">
+                    
+                    {/* <div className="pick-a-playlist-text">
+                        Pick a playlist
+                    </div> */}
+                    <div className="playlists-container">
+                        {this.state.playlists.map((playlist, index) => (
+                            <PlaylistButton key={playlist.name} id={playlist.id} index={index} name={playlist.name} image={playlist.images[0].url}></PlaylistButton>
+                            ))}
+                    </div>
                 </div>
             </div>
         )

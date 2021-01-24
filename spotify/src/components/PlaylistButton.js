@@ -10,38 +10,41 @@ const spotifyWebApi = new Spotify();
 class PlaylistButton extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            playlistID: this.props.id, 
-            playlistName: this.props.name,
-            numOfTracks: 0,
-            tracks: [],
-        }
+        this.playlistID = this.props.id;
+        this.playlistName = this.props.name;
+        this.numOfTracks = 0;
+        this.state  = ({ 
+            tracks: []
+        })
+        
+        
         this.loop.bind(this);
     }
 
-    componentDidMount ()  {
+    async componentDidMount ()  {
+  
         this.tracks = [];
-        this.numOfTracks = 0
-        spotifyWebApi.getPlaylistTracks(this.state.playlistID).then((response) => {
-            this.setState({
-                numOfTracks: response.total
-            },
-            () => {this.loop(this.state.numOfTracks, this.state.playlistID)})
+
+        // Store length of tracks, then start loop of getting all the tracks
+        await spotifyWebApi.getPlaylistTracks(this.playlistID).then((response) => {
+            this.numOfTracks = response.total
         })
+        this.loop(this.numOfTracks, this.playlistID)
+
     }
 
+    // Get all tracks for each playlist by looping through each 100 tracks given
     async loop(number, ID) {
+
         for (let i=0; i < Math.ceil(number / 100); i++) {
-            var r = await spotifyWebApi.getPlaylistTracks(ID, {offset: i*100}).then(response => {
-                return response
-            })
-            this.tracks.push(r);
+            var r = await spotifyWebApi.getPlaylistTracks(ID, {offset: i*100}).then(response => {return response})
+            this.tracks.push(r)
         }
         this.tracks = this.tracks.map(hundred_tracks => {
             return hundred_tracks.items
         })
         this.tracks = [].concat.apply([], this.tracks);
-        this.setState({ 
+        this.setState({
             tracks: this.tracks.map(item => {
                 return  {
                     album_name: item.track.album.name,
@@ -56,22 +59,19 @@ class PlaylistButton extends Component {
         })
     }
 
-
     render () {
         return(
             <div className="playlist-button-and-image-container">
             <Link to= {{
                 pathname: "/youtube",
-                playlistID: this.state.playlistID,
-                playlistName: this.state.playlistName,
+                playlistID: this.playlistID,
+                playlistName: this.playlistName,
                 tracks: this.state.tracks}}>
-                <Button className="playlist-button">{this.props.name}</Button>
-                <img className="playlist-image" src={this.props.image} alt={this.props.name}/>
+                <Button className="playlist-button">{this.playlistName}</Button>
+                <img className="playlist-image" src={this.props.image} alt={this.playlistName}/>
             </Link>
         </div>
         )
     }
 }
-
-// <Button className="playlist-number">{this.props.index} </Button>
 export default PlaylistButton

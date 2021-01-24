@@ -1,11 +1,7 @@
-import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-    Button,
-    Card
-  } from "react-bootstrap";
+import React, { Component } from 'react';
+import { Button, Card} from "react-bootstrap";
 import "../css/home.css"
-import NavigationBar from "../components/Navigation"
 
 
 

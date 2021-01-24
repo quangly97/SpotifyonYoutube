@@ -11,16 +11,6 @@
   justify-content: center;
 }
 
-.playlist-back-button {
-  margin-top: 5px;
-  display: flex;
-  height: 20px;
-  justify-content: center;
-  text-align: center;
-  animation: fadeIn;
-  animation-duration: 2s;
-}
-
 .hidden {
   background-color: black;
 }

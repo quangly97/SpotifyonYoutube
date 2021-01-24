@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Spotify from 'spotify-web-api-js';
 import {Button} from "react-bootstrap";
-import {Link} from 'react-router-dom';
 import "../css/dynamic.css"
 import NavigationBar from "../components/Navigation"
 
@@ -11,111 +10,122 @@ class Dynamic extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            spotify_id: "",
-            is_playing: false,
-            query_IDs: [0],
-            lyric_IDs: [0],
-            first_video: true
+            lyric: false,
         }
+        this.spotify_id = "";
+        this.query_IDs =  [0];
+        this.lyric_IDs =  [0];
+        this.first_video = true;
+        this.current_state = "stopped";
+
         // Set Access Token for Use
         spotifyWebApi.setAccessToken(localStorage.getItem("access_token"))
         this.is_interval = true
         this.search = this.search.bind(this)
         this.loadVideo = this.loadVideo.bind(this)
+        this.onPlayerStateChange = this.onPlayerStateChange.bind(this)
+        this.handleLyricToggleClick = this.handleLyricToggleClick.bind(this)
         this.checkStatus = this.checkStatus.bind(this)
+        this.onPlayerReady = this.onPlayerReady.bind(this) 
     }
-    async componentDidMount () {
-        // If this is the first video, we are goin to load the script
-        if (this.state.first_video) {
-            spotifyWebApi.getMyCurrentPlaybackState().then((response) => {
-                if (response.item) {
-                    this.setState({
-                        spotify_id: response.item.id
-                    }, async () => {
-                        console.log(this.state.first_video)
-                        await this.search([response.item.name + " - " + response.item.artists[0].name, response.item.id, 0])
-                        if (!window.YT) {
-                            const tag = document.createElement('script');
-                            tag.src = 'https://www.youtube.com/iframe_api'
-                            window.onYouTubeIframeAPIReady = async () => {
-                                this.loadVideo(this.state.query_IDs[0])
-                            }
-
-                            const firstScriptTag = document.getElementsByTagName('script')[0];
-                            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-                            
-                        }
-                        else {
-                            this.loadVideo(this.state.query_IDs[0])
-                        }
-                        this.setState({ first_video: false })
-                        
-                    })
-                }
-                else {  
-                    spotifyWebApi.getMyRecentlyPlayedTracks().then((response) => {
-                        this.setState({
-                            spotify_id: response.items[0].track.id
-                        }, async () => {
-                            await this.search([response.items[0].track.name + " - " + response.items[0].track.artists[0].name, response.items[0].track.id, 0])
-                            if (!window.YT) {
-                                const tag = document.createElement('script');
-                                tag.src = 'https://www.youtube.com/iframe_api'
-                                window.onYouTubeIframeAPIReady = () => {this.loadVideo(this.state.query_IDs[0])};
-                                const firstScriptTag = document.getElementsByTagName('script')[0];
-                                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-                            }
-                            else {
-                                this.loadVideo(this.state.query_IDs[0]);
-                            }
-                            this.setState({ first_video: false })
-                            
-                        })
-                    })
-                }
-            })
-        }
-  
-        this.interval = setInterval(() => {
-            if (this.is_interval) {
-                 this.checkStatus()
-            }
-        }, 3000)
-    }
-
-    componentWillUnmount() {
+    componentWillUnmount () {
+        this.controller.abort()
         clearInterval(this.interval)
         console.log("cleared")
     }
 
+    async componentDidMount () {
+        // If this is the first video, we are going to load the script
+        if (this.first_video) {
+            spotifyWebApi.getMyCurrentPlaybackState().then(async (response) => {
+                // 
+                if (response.item) {
+
+                    this.spotify_id = response.item.id
+                    await this.search([response.item.name + " - " + response.item.artists[0].name, response.item.id, 0])
+
+                    if (!window.YT) {
+                        // Adding Script Element
+                        const tag = document.createElement('script');
+                        tag.src = 'https://www.youtube.com/iframe_api'
+                        window.onYouTubeIframeAPIReady =  () => { this.loadVideo(this.query_IDs[0])}
+                        const firstScriptTag = document.getElementsByTagName('script')[0];
+                        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+                    }
+                    else {
+                        this.loadVideo(this.query_IDs[0])
+                    }
+                    this.first_video = false;  
+                }
+
+                else {
+                    // If nothign is currently playing, get recently playing tracks
+                    spotifyWebApi.getMyRecentlyPlayedTracks().then(async (response) => {
+                        this.spotify_id = response.items[0].track.id
+                        await this.search([response.items[0].track.name + " - " + response.items[0].track.artists[0].name, response.items[0].track.id, 0])
+                        
+                        if (!window.YT) {
+                            // Adding Script Element
+                            const tag = document.createElement('script');
+                            tag.src = 'https://www.youtube.com/iframe_api'
+                            window.onYouTubeIframeAPIReady = () => {this.loadVideo(this.query_IDs[0])};
+                            const firstScriptTag = document.getElementsByTagName('script')[0];
+                            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+                        }
+                        else {
+                            this.loadVideo(this.query_IDs[0]);
+                        }
+                        this.first_video = false;
+                            
+                    })
+                }
+            })
+        }
+
+        // Check status every x milliseconds
+        this.interval = setInterval(() => {
+            if (this.is_interval) {
+                 this.checkStatus()
+            }
+        }, 2500)
+    }
 
     checkStatus () {
+
         spotifyWebApi.getMyCurrentPlaybackState().then((response) => {
-
-            if (response.shuffle_state === true) {
+            // If shuffle, pause, if not,  play.
+            if ((response.shuffle_state === true) && (this.current_state="playing")) {
                 document.getElementById('pause').click()
+                this.current_state = "paused"
             }
-            else (
+            else if ((response.shuffle_state === false) && (this.current_state="paused")) {
                 document.getElementById('play').click()
-            )
+                this.current_state = "playing"
+            }
 
-
+            // If on repeat, toggle lyric video/music video
             if (response.repeat_state === "context") {
-                this.handleLyricToggleClick()
-                spotifyWebApi.setRepeat("off")
+                if (!this.first_video) {
+                    this.handleLyricToggleClick()
+                    spotifyWebApi.setRepeat("off")
+                }
 
             }
 
-            if (response.item && (response.item.id !== this.state.spotify_id)) {
+            // If it's playing and its not our current
+            if (response.item && (response.item.id !== this.spotify_id)) {
                 this.is_interval = false;
+                this.spotify_id = response.item.id;
                 this.setState({
-                    spotify_id: response.item.id,
                     lyric: false
                 }, async () => {
                     await this.search([response.item.name + " - " + response.item.artists[0].name, response.item.id, 0])
-                    await this.player.loadVideoById(this.state.query_IDs[0]);
-                    spotifyWebApi.pause().catch((error) => { console.log(error)});
+                    await this.player.loadVideoById(this.query_IDs[0]);
+                    this.current_state = "playing"
                     this.is_interval = true;
+                    if (response.is_playing) {
+                        spotifyWebApi.pause()
+                    }
                 })
             } 
         })
@@ -124,17 +134,16 @@ class Dynamic extends Component {
 
     
     async search(search_term) {
+        // Creating a signal so we can abort the fetch request when we unmout
         this.controller = new AbortController();
         const signal = this.controller.signal;
 
         var data = {
             search_terms: [search_term],
-            query_IDs: this.state.query_IDs,
-            lyric_IDs: this.state.lyric_IDs,
+            query_IDs: this.query_IDs,
+            lyric_IDs: this.lyric_IDs,
         }
-        this.setState({
-            fetching: true,
-        })
+        this.fetching = true
         const response = await fetch('http://localhost:8888/youtube_search', {   
             method: 'POST',
                 signal: signal,
@@ -146,17 +155,15 @@ class Dynamic extends Component {
         })
 
         const body = await response.json()
-        this.setState(
-            {
-                query_IDs: body.query_IDs,
-                lyric_IDs: body.lyric_IDs,
-                fetching: false,
-            }, () => {
-                if (!this.state.first_video) {
-                    this.player.loadVideoById(body.query_IDs[0])
-                }
-                this.is_interval = true;
-            })
+        this.query_IDs =  body.query_IDs;
+        this.lyric_IDs = body.lyric_IDs;
+        this.fetching =  false;
+
+        if (!this.first_video) {
+            this.player.loadVideoById(body.query_IDs[0])
+            this.current_state = "playing"
+        }
+        this.is_interval = true;
 
     }
 
@@ -179,19 +186,6 @@ class Dynamic extends Component {
         });
     }
     
-    handleLyricToggleClick() {
-        this.setState({
-            lyric: !this.state.lyric,
-        }, () => {
-            if (this.state.lyric) {
-                this.player.loadVideoById(this.state.lyric_IDs[0])
-            }
-            else {
-                this.player.loadVideoById(this.state.query_IDs[0])
-            }
-            
-        })
-    }
 
     onPlayerReady(e) {
         document.getElementById('pause').addEventListener('click', function() {
@@ -202,10 +196,37 @@ class Dynamic extends Component {
         })
         e.target.playVideo();
     }
+
+    onPlayerStateChange(e) {
+        if (e.data === window.YT.PlayerState.PLAYING) {
+            this.current_state = "playing"
+        }
+        if (e.data === window.YT.PlayerState.PAUSED) {
+            this.current_state = "paused"
+        }
+        if (e.data === window.YT.PlayerState.ENDED) {
+            this.player.loadVideoById(this.query_IDs[0])
+        }
+    }
     onError(e) {
         if ((e.data === 101) || (e.data === 150)) {
         }
     }
+
+    handleLyricToggleClick() {
+        this.setState({
+            lyric: !this.state.lyric,
+        }, () => {
+            if (this.state.lyric) {
+                this.player.loadVideoById(this.lyric_IDs[0])
+            }
+            else {
+                this.player.loadVideoById(this.query_IDs[0])
+            }
+            
+        })
+    }
+
     render () {
         return (
             <div> 

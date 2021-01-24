@@ -15,9 +15,9 @@ class NavigationBar extends Component {
     }
     render () {
         return(
-            <Navbar className="Navigation">
+            <Navbar className="navigation">
                 <Link to={"/" + this.props.back}>
-                    <img className="playlist-back-button" src={require("../images/green-left-icon-arrow-left.png")} alt="Green Left Arrow" height="30" />
+                    <img className="navigation-back-button" src={require("../images/green-left-icon-arrow-left.png")} alt="Green Left Arrow" height="30" />
                 </Link>
                 <div> 
                     {this.props.children}
