@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node auth_server/authorization_code/app.js"
+    "start": "node auth_server/authorization_code/app.js",
+    "build": "cd spotify && npm run build",
+    "install-client": "cd spotify && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",

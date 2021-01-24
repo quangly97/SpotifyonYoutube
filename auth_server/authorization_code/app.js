@@ -17,7 +17,6 @@ const puppeteer = require('puppeteer')
 const { Cluster } = require('puppeteer-cluster');
 
 var port = process.env.PORT || 8888
-j
 var client_id = "f5015c8336214507b109279c338a098e"; // Your client id
 var client_secret = "dd067e38447f41a99d31021e5b4f5941"; // Your secret
 var redirect_uri = "http://localhost:8888/callback/"; // Your redirect uri
@@ -43,7 +42,7 @@ var stateKey = "spotify_auth_state";
 var app = express();
 
 app
-  .use(express.static(__dirname + "/public"))
+  .use(express.static(__dirname + "/../../spotify/build"))
   .use(cors())
   .use(cookieParser())
   .use(bodyParser.json());
