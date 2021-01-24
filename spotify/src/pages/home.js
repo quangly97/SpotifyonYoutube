@@ -6,6 +6,7 @@ import "../css/home.css"
 
 
 class Home extends Component {
+
     render() {
         return(
             <div className="home-page">
@@ -14,7 +15,7 @@ class Home extends Component {
                         src={require("../images/spotify-youtube.jpg")}
                         alt="Spotify-Youtube"
                     />
-                    <a href="http://localhost:8888/login">
+                    <a href={"/login"}>
                         <Button className="spotify-youtube-card-button">
                             Login With Spotify
                         </Button>
