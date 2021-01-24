@@ -120,7 +120,7 @@ app.get("/callback", function (req, res) {
 
         // we can also pass the token to the browser to make requests from there
         res.redirect(
-          "https://peaceful-caverns-22670.herokuapp.com/modes" +
+          "https://peaceful-caverns-22670.herokuapp.com/modes/" +
             querystring.stringify({
               access_token: access_token,
               refresh_token: refresh_token,
