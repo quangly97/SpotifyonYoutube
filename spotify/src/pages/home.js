@@ -15,7 +15,7 @@ class Home extends Component {
                         src={require("../images/spotify-youtube.jpg")}
                         alt="Spotify-Youtube"
                     />
-                    <a href={"/login"}>
+                    <a href="/login">
                         <Button className="spotify-youtube-card-button">
                             Login With Spotify
                         </Button>
