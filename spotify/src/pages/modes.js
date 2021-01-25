@@ -15,8 +15,11 @@ class Modes extends Component {
         this.params = this.getHashParams();
         
         if (this.params.access_token) {
+            window.localStorage.setItem("access_token", this.params.access_token)
             spotifyWebApi.setAccessToken(this.params.access_token)
-            localStorage.setItem("access_token", this.params.access_token)
+            console.log(window.localStorage.get("access_token"))
+            console.log(this.params.access_token)
+            
         }
     }
 

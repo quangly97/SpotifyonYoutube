@@ -11,6 +11,7 @@ const spotifyWebApi = new Spotify();
 class App extends Component {
   constructor(props) {
     super(props);
+    console.log(localStorage)
   }
   render() {
     return (
