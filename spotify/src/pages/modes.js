@@ -8,6 +8,9 @@ import NavigationBar from "../components/Navigation"
 
 
 class Modes extends Component {
+    constructor () {
+        spotifyWebApi.setAccessToken(localStorage.getItem("access_token"));
+    }
     render() {
         return(
             <div>

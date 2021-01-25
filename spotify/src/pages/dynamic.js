@@ -29,7 +29,9 @@ class Dynamic extends Component {
         this.onPlayerReady = this.onPlayerReady.bind(this) 
     }
     componentWillUnmount () {
-        this.controller.abort()
+        if (this.fetching) {
+            this.controller.abort()
+        }
         clearInterval(this.interval)
         console.log("cleared")
     }
@@ -144,7 +146,7 @@ class Dynamic extends Component {
             lyric_IDs: this.lyric_IDs,
         }
         this.fetching = true
-        const response = await fetch('http://localhost:8888/youtube_search', {   
+        const response = await fetch('https://peaceful-caverns-22670.herokuapp.com/youtube_search', {   
             method: 'POST',
                 signal: signal,
                 headers: {
