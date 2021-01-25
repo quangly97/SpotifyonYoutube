@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { Component } from 'react';
-import {Link} from "react-router-dom";
+// import {Link} from "react-router-dom";
 import { Button, Card} from "react-bootstrap";
 import "../css/home.css"
 
