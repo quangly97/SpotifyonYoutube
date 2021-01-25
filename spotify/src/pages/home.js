@@ -8,7 +8,7 @@ import "../css/home.css"
 class Home extends Component {
     constructor () {
         super();
-        this.handleClick = this.handeClick.bind(this)
+        this.handleClick = this.handleClick.bind(this)
     }
 
     async handleClick () {
