@@ -13,7 +13,7 @@ class PickPlaylist extends Component {
             playlists: [],
         }
         this.getPlaylists = this.getPlaylists.bind(this);
-        console.log(window.localStorage.getItem("access_token"))
+        console.log(localStorage.getItem("access_token"))
         spotifyWebApi.setAccessToken(localStorage.getItem("access_token"))
         
     }

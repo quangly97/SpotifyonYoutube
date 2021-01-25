@@ -11,8 +11,25 @@ const spotifyWebApi = new Spotify();
 class Modes extends Component {
     constructor () {
         super();
-        spotifyWebApi.setAccessToken(window.localStorage.getItem("access_token"));
+        this.getHashParams = this.getHashParams.bind(this)
+        this.params = this.getHashParams();
+        
+        if (this.params.access_token) {
+            spotifyWebApi.setAccessToken(this.params.access_token)
+            localStorage.setItem("access_token", this.params.access_token)
+        }
     }
+
+    getHashParams() {
+        var hashParams = {};
+        var e, r = /([^&;=]+)=?([^&;]*)/g,
+            q = window.location.hash.substring(1);
+        while ((e = r.exec(q))) {
+            hashParams[e[1]] = decodeURIComponent(e[2]);
+        }
+        return hashParams;
+    }
+
     render() {
         return(
             <div>

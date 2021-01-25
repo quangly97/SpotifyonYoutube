@@ -11,25 +11,10 @@ const spotifyWebApi = new Spotify();
 class App extends Component {
   constructor(props) {
     super(props);
-    this.params = this.getHashParams();
     this.state = {
       loggedIn: this.params.access_token ? true : false,
     };
-    // If access token is available, store it in local storage to be available at all pages
-    if (this.params.access_token) {
-      spotifyWebApi.setAccessToken(this.params.access_token)
-      window.localStorage.setItem("access_token", this.params.access_token)
-    }
-  }
-  getHashParams() {
-    var hashParams = {};
-    var e, r = /([^&;=]+)=?([^&;]*)/g,
-        q = window.location.hash.substring(1);
-    while ((e = r.exec(q))) {
-        hashParams[e[1]] = decodeURIComponent(e[2]);
-    }
-    return hashParams;
-  }
+
   render() {
     return (
       <div>
