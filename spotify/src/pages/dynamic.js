@@ -20,8 +20,8 @@ class Dynamic extends Component {
         console.log(this.props)
 
         // Set Access Token for Use
-        console.log(window.localStorage.getItem("access_token"))
-        spotifyWebApi.setAccessToken(window.localStorage.getItem("access_token"))
+        console.log(ls.get("access_token"))
+        spotifyWebApi.setAccessToken(ls.get("access_token"))
         this.is_interval = true
         this.search = this.search.bind(this)
         this.loadVideo = this.loadVideo.bind(this)

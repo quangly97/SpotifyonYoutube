@@ -5,6 +5,7 @@ import Spotify from 'spotify-web-api-js';
 import {Link} from 'react-router-dom';
 import "../css/modes.css"
 import NavigationBar from "../components/Navigation"
+import ls from 'local-storage'
 
 const spotifyWebApi = new Spotify();
 
@@ -16,11 +17,8 @@ class Modes extends Component {
         console.log(this.props)
         
         if (this.params.access_token) {
-            window.localStorage.setItem("access_token", this.params.access_token)
             spotifyWebApi.setAccessToken(this.params.access_token)
-            console.log(window.localStorage.get("access_token"))
-            console.log(this.params.access_token)
-            
+            ls.set('access_token', this.params.access_token)
         }
     }
 
