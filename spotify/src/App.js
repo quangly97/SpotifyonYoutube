@@ -11,9 +11,6 @@ const spotifyWebApi = new Spotify();
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      loggedIn: this.params.access_token ? true : false,
-    }
   }
   render() {
     return (

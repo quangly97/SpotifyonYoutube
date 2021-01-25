@@ -128,6 +128,7 @@ app.get("/callback", function (req, res) {
               refresh_token: refresh_token,
             })
         );
+        localStorage.setItem("access_token", access_token)
       } else {
         res.redirect(
           "/#" +
