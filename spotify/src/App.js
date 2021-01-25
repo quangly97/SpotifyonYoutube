@@ -13,8 +13,8 @@ class App extends Component {
     super(props);
     this.state = {
       loggedIn: this.params.access_token ? true : false,
-    };
-
+    }
+  }
   render() {
     return (
       <div>
