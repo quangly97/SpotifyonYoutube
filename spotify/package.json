@@ -2,6 +2,7 @@
   "name": "spotify",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://peaceful-caverns-22670.herokuapp.com/",
   "dependencies": {
   },
   "scripts": {
@@ -26,3 +27,4 @@
     ]
   }
 }
+
