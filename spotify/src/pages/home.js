@@ -40,4 +40,4 @@ class Home extends Component {
 export default Home;
 
 
-/* <a href="https://peaceful-caverns-22670.herokuapp.com/login"> 
+// <a href="https://peaceful-caverns-22670.herokuapp.com/login"> 
