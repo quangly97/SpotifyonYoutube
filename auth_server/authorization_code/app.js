@@ -52,6 +52,10 @@ app.get("/", (req, res) => {
   res.render("index")
 })
 
+app.get('*',  (req, res) =>  {
+  res.sendFile(path.join(__dirname, "..", "..", "spotify", "build", "index.html"))
+})
+
 app.get("/login", function (req, res) {
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
