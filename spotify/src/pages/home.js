@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { Component } from 'react';
+import {Link} from "react-router-dom";
 import { Button, Card} from "react-bootstrap";
 import "../css/home.css"
 
@@ -8,17 +9,6 @@ import "../css/home.css"
 class Home extends Component {
     constructor () {
         super();
-        this.handleClick = this.handleClick.bind(this)
-    }
-
-    async handleClick () {
-        const response = await fetch('/login', { 
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        })
     }
 
     render() {
@@ -29,8 +19,9 @@ class Home extends Component {
                         src={require("../images/spotify-youtube.jpg")}
                         alt="Spotify-Youtube"
                     />
-                    <Button className="spotify-youtube-card-button" onClick={() => {this.handleClick()}}> Login With Spotify </Button>
-        
+                    <a href="https://peaceful-caverns-22670.herokuapp.com/login">
+                        <Button className="spotify-youtube-card-button" onClick={() => {this.handleClick()}}> Login With Spotify </Button>
+                    </a>
                 </Card>
           </div>
         )
@@ -40,4 +31,4 @@ class Home extends Component {
 export default Home;
 
 
-// <a href="https://peaceful-caverns-22670.herokuapp.com/login"> 
+// 
