@@ -3,6 +3,7 @@ import Spotify from 'spotify-web-api-js';
 import PlaylistButton from "../components/PlaylistButton"
 import "../css/pickPlaylist.css"
 import NavigationBar from "../components/Navigation"
+import ls from 'local-storage'
 
 const spotifyWebApi = new Spotify();
 

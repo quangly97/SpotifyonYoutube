@@ -3,6 +3,7 @@ import Spotify from 'spotify-web-api-js';
 import {Button} from "react-bootstrap";
 import "../css/dynamic.css"
 import NavigationBar from "../components/Navigation"
+import ls from 'local-storage'
 
 const spotifyWebApi = new Spotify();
 
