@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { Component } from 'react';
 import {Button} from "react-bootstrap";
+import Spotify from 'spotify-web-api-js';
 import {Link} from 'react-router-dom';
 import "../css/modes.css"
 import NavigationBar from "../components/Navigation"
