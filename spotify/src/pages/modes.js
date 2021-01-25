@@ -13,6 +13,7 @@ class Modes extends Component {
         super();
         this.getHashParams = this.getHashParams.bind(this)
         this.params = this.getHashParams();
+        console.log(this.props)
         
         if (this.params.access_token) {
             window.localStorage.setItem("access_token", this.params.access_token)

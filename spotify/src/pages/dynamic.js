@@ -17,6 +17,7 @@ class Dynamic extends Component {
         this.lyric_IDs =  [0];
         this.first_video = true;
         this.current_state = "stopped";
+        console.log(this.props)
 
         // Set Access Token for Use
         console.log(window.localStorage.getItem("access_token"))
