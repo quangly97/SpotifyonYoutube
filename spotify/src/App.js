@@ -18,7 +18,7 @@ class App extends Component {
     // If access token is available, store it in local storage to be available at all pages
     if (this.params.access_token) {
       spotifyWebApi.setAccessToken(this.params.access_token)
-      localStorage.setItem("access_token", this.params.access_token)
+      window.localStorage.setItem("access_token", this.params.access_token)
     }
   }
   getHashParams() {

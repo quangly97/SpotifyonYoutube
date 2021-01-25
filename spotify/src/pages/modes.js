@@ -11,7 +11,7 @@ const spotifyWebApi = new Spotify();
 class Modes extends Component {
     constructor () {
         super();
-        spotifyWebApi.setAccessToken(localStorage.getItem("access_token"));
+        spotifyWebApi.setAccessToken(window.localStorage.getItem("access_token"));
     }
     render() {
         return(

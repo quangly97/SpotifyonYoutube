@@ -19,7 +19,7 @@ class Dynamic extends Component {
         this.current_state = "stopped";
 
         // Set Access Token for Use
-        spotifyWebApi.setAccessToken(localStorage.getItem("access_token"))
+        spotifyWebApi.setAccessToken(window.localStorage.getItem("access_token"))
         this.is_interval = true
         this.search = this.search.bind(this)
         this.loadVideo = this.loadVideo.bind(this)
