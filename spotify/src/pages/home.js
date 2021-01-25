@@ -6,6 +6,20 @@ import "../css/home.css"
 
 
 class Home extends Component {
+    constructor () {
+        super();
+        this.handleClick = this.handeClick.bind(this)
+    }
+
+    async handleClick () {
+        const response = await fetch('/login', { 
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+    }
 
     render() {
         return(
@@ -15,11 +29,8 @@ class Home extends Component {
                         src={require("../images/spotify-youtube.jpg")}
                         alt="Spotify-Youtube"
                     />
-                    <a href="https://peaceful-caverns-22670.herokuapp.com/login">
-                        <Button className="spotify-youtube-card-button">
-                            Login With Spotify
-                        </Button>
-                    </a>
+                    <Button className="spotify-youtube-card-button" onClick={() => {this.handleClick()}}> Login With Spotify </Button>
+        
                 </Card>
           </div>
         )
@@ -27,3 +38,6 @@ class Home extends Component {
 }
 
 export default Home;
+
+
+/* <a href="https://peaceful-caverns-22670.herokuapp.com/login"> 

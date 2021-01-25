@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import {Link, useLocation, withRouter} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import { Button, Spinner} from "react-bootstrap";
 import "../css/youtube.css"
 import Spotify from 'spotify-web-api-js'
