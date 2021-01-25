@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import "../css/modes.css"
 import NavigationBar from "../components/Navigation"
 
-
+const spotifyWebApi = new Spotify();
 
 class Modes extends Component {
     constructor () {
