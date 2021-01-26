@@ -146,6 +146,8 @@ class Dynamic extends Component {
             query_IDs: [0],
             lyric_IDs: [0],
         }
+
+        console.log(data)
         this.fetching = true
         const response = await fetch('/youtube_search', {   
             method: 'POST',

@@ -236,6 +236,7 @@ app.post("/youtube_search",  (req, res) => {
     }
     
     console.log(query_IDs)
+    await cluster.idle()
     res.send(
       { query_IDs: query_IDs,
         lyric_IDs: lyric_IDs,
