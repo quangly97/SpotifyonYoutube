@@ -18,7 +18,7 @@ class Modes extends Component {
         console.log(this.params)
     }
     getHashParams() {
-        if (!localStorage.getItem("access_token")) {
+        if (window.location.href.split("/")[4]) {
             console.log(window.location.href)
             var x = window.location.href.split("/")[4]
             console.log(x)
