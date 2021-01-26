@@ -17,8 +17,10 @@ class Modes extends Component {
         console.log(this.props)
         
         if (this.params.access_token) {
+            console.log(this.params.access_token)
             spotifyWebApi.setAccessToken(this.params.access_token)
             ls.set('access_token', this.params.access_token)
+            console.log(ls.get("access_token"))
         }
     }
 
