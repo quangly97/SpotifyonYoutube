@@ -19,7 +19,7 @@ class Modes extends Component {
     }
     getHashParams() {
         console.log(window.location.href)
-        x = window.location.href.split("/")[4]
+        var x = window.location.href.split("/")[4]
         console.log(x)
         x = [x.split("&")[0], x.split("&")[1]]
         console.log(x)
