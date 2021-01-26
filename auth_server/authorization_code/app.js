@@ -187,7 +187,7 @@ app.post("/youtube_search",  (req, res) => {
     // Launch concurrent puppeteer
     const cluster = await Cluster.launch({
       concurrency: Cluster.CONCURRENCY_PAGE,
-      maxConcurrency: 1,
+      maxConcurrency: 4,
       retryLimit: 2,
       puppeteerOptions: options,
     });
