@@ -214,6 +214,7 @@ class Dynamic extends Component {
     }
     onError(e) {
         if ((e.data === 101) || (e.data === 150)) {
+            this.player.loadVideoById(this.lyric_IDs[0])
         }
     }
 

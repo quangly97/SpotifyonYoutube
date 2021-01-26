@@ -48,7 +48,7 @@ class Youtube extends Component {
         this.onPlayerStateChange = this.onPlayerStateChange.bind(this)
     }
     async componentDidMount() {
-        await this.search2(0, Math.min(10, this.state.length));
+        await this.search2(7, Math.min(5, this.state.length));
         if (!window.YT) {
             const tag = document.createElement('script');
             tag.src = 'https://www.youtube.com/iframe_api'

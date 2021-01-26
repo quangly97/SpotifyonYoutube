@@ -187,8 +187,8 @@ app.post("/youtube_search",  (req, res) => {
     // Launch concurrent puppeteer
     const cluster = await Cluster.launch({
       concurrency: Cluster.CONCURRENCY_PAGE,
-      maxConcurrency: 2,
-      retryLimit: 3,
+      maxConcurrency: 1,
+      retryLimit: 2,
       puppeteerOptions: options,
     });
     var query_IDs = req.body.query_IDs
@@ -235,7 +235,6 @@ app.post("/youtube_search",  (req, res) => {
       i++
     }
     
-    await cluster.idle();
     console.log(query_IDs)
     res.send(
       { query_IDs: query_IDs,
