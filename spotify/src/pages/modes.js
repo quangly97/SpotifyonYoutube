@@ -18,23 +18,25 @@ class Modes extends Component {
         console.log(this.params)
     }
     getHashParams() {
-        console.log(window.location.href)
-        var x = window.location.href.split("/")[4]
-        console.log(x)
-        x = [x.split("&")[0], x.split("&")[1]]
-        console.log(x)
-        x = x.map((token) => {
-            return token.split("=")[1]
-        })
-        console.log(x)
-        spotifyWebApi.setAccessToken(x[0])
-        localStorage.setItem("access_token", x[0])
-        localStorage.setItem("refresh_token", x[1])
-        console.log(localStorage.getItem("access_token"))
-        console.log(localStorage.getItem("refresh_token"))
-        return x[0]
+        if (!localStorage.getItem("access_token")) {
+            console.log(window.location.href)
+            var x = window.location.href.split("/")[4]
+            console.log(x)
+            x = [x.split("&")[0], x.split("&")[1]]
+            console.log(x)
+            x = x.map((token) => {
+                return token.split("=")[1]
+            })
+            console.log(x)
+            spotifyWebApi.setAccessToken(x[0])
+            localStorage.setItem("access_token", x[0])
+            localStorage.setItem("refresh_token", x[1])
+            console.log(localStorage.getItem("access_token"))
+            console.log(localStorage.getItem("refresh_token"))
+            return x[0]
+        }
     }
-
+        
     getHashParams2() {
         var hashParams = {};
         var e, r = /([^&;=]+)=?([^&;]*)/g,
