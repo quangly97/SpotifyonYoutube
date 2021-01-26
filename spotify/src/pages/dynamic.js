@@ -35,8 +35,10 @@ class Dynamic extends Component {
         if (this.fetching) {
             this.controller.abort()
         }
-        clearInterval(this.interval)
+        clearInterval(window.refreshIntervalId)
         console.log("cleared")
+
+        //  instead of a local variable, and it works great! – S
     }
 
     async componentDidMount () {
@@ -88,11 +90,7 @@ class Dynamic extends Component {
         }
 
         // Check status every x milliseconds
-        this.interval = setInterval(() => {
-            if (this.is_interval) {
-                 this.checkStatus()
-            }
-        }, 2500)
+    window.refreshIntervalId = setInterval(() => {this.checkStatus()}, 2500)
     }
 
     checkStatus () {
@@ -120,8 +118,8 @@ class Dynamic extends Component {
 
             // If it's playing and its not our current
             if (response.item && (response.item.id !== this.spotify_id)) {
-                console.log("changing")
-                this.is_interval = false;
+                clearInterval(window.refreshIntervalId)
+                
                 await this.search([response.item.name + " - " + response.item.artists[0].name, response.item.id, 0]).then((response) => {
                     console.log(this.query_IDs)
                     this.current_state = "playing"
@@ -130,7 +128,7 @@ class Dynamic extends Component {
                 if (response.is_playing) {
                     spotifyWebApi.pause()
                 }
-                this.is_interval = true;
+                window.refreshIntervalId = setInterval(() => {this.checkStatus()}, 2500)
             } 
         })
 
