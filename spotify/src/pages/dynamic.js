@@ -147,7 +147,7 @@ class Dynamic extends Component {
             lyric_IDs: this.lyric_IDs,
         }
         this.fetching = true
-        const response = await fetch('https://peaceful-caverns-22670.herokuapp.com/youtube_search', {   
+        const response = await fetch('/youtube_search', {   
             method: 'POST',
                 signal: signal,
                 headers: {
@@ -158,6 +158,7 @@ class Dynamic extends Component {
         })
 
         const body = await response.json()
+        console.log(body)
         this.query_IDs =  body.query_IDs;
         this.lyric_IDs = body.lyric_IDs;
         console.log(this.query_IDS)
