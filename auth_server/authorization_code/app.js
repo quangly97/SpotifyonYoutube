@@ -189,6 +189,7 @@ app.post("/youtube_search",  (req, res) => {
       concurrency: Cluster.CONCURRENCY_PAGE,
       maxConcurrency: 10,
       retryLimit: 3,
+      puppeteerOptions: options,
     });
     var query_IDs = req.body.query_IDs
     var lyric_IDs = req.body.lyric_IDs
