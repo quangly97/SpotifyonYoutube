@@ -131,9 +131,11 @@ class Youtube extends Component {
             },
             body: JSON.stringify(data),
         })
-        console.log(body)
+
+
         if (this._isMounted) {
             const body = await response.json()
+            console.log(body)
             this.setState({
                 query_IDs: body.query_IDs,
                 lyric_IDs: body.lyric_IDs,
