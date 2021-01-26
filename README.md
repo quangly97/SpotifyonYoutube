@@ -5,4 +5,8 @@ Done in React.js and Node.js
 
 ## Tutorial
 
-Upon clicking the app you will see: ![alt text](https://github.com/KojoObeng/SpotifyonYoutube/blob/master/images/authorization_page.JPG?raw=true)
+Upon clicking the app you will see: 
+
+![alt text](https://github.com/KojoObeng/SpotifyonYoutube/blob/master/images/authorization_page.JPG?raw=true =100x20)
+
+
