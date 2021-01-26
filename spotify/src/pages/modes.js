@@ -13,18 +13,29 @@ class Modes extends Component {
     constructor () {
         super();
         this.getHashParams = this.getHashParams.bind(this)
+        this.getHashParams2 = this.getHashParams2.bind(this)
         this.params = this.getHashParams();
-        console.log(this.props)
-        
-        if (this.params.access_token) {
-            console.log(this.params.access_token)
-            spotifyWebApi.setAccessToken(this.params.access_token)
-            ls.set('access_token', this.params.access_token)
-            console.log(ls.get("access_token"))
-        }
+        console.log(this.params)
+    }
+    getHashParams() {
+        console.log(window.location.href)
+        x = window.location.href.split("/")[4]
+        console.log(x)
+        x = [x.split("&")[0], x.split("&")[1]]
+        console.log(x)
+        x = x.map((token) => {
+            return token.split("=")[1]
+        })
+        console.log(x)
+        spotifyWebApi.setAccessToken(x[0])
+        localStorage.setItem("access_token", x[0])
+        localStorage.setItem("refresh_token", x[1])
+        console.log(localStorage.getItem("access_token"))
+        console.log(localStorage.getItem("refresh_token"))
+        return x[0]
     }
 
-    getHashParams() {
+    getHashParams2() {
         var hashParams = {};
         var e, r = /([^&;=]+)=?([^&;]*)/g,
             q = window.location.hash.substring(1);
