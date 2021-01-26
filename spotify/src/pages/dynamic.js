@@ -96,7 +96,7 @@ class Dynamic extends Component {
     }
 
     checkStatus () {
-        spotifyWebApi.getMyCurrentPlaybackState().then((response) => {
+        spotifyWebApi.getMyCurrentPlaybackState().then(async (response) => {
             console.log(response, "response")
             console.log(this.spotify_id, "curr spotify_id")
             // If shuffle, pause, if not,  play.
@@ -121,18 +121,16 @@ class Dynamic extends Component {
             // If it's playing and its not our current
             if (response.item && (response.item.id !== this.spotify_id)) {
                 this.is_interval = false;
-                this.spotify_id = response.item.id;
-                this.setState({
-                    lyric: false
-                }, async () => {
-                    await this.search([response.item.name + " - " + response.item.artists[0].name, response.item.id, 0])
-                    await this.player.loadVideoById(this.query_IDs[0]);
+                await this.search([response.item.name + " - " + response.item.artists[0].name, response.item.id, 0]).then((response) => {
+                    this.player.loadVideoById(this.query_IDs[0]);
+                    this.setState({lyric: false})
                     this.current_state = "playing"
-                    this.is_interval = true;
+                    this.is_interval = true
                     if (response.is_playing) {
                         spotifyWebApi.pause()
                     }
                 })
+                this.is_interval = true;
             } 
         })
 
@@ -140,6 +138,7 @@ class Dynamic extends Component {
 
     
     async search(search_term) {
+        console.log("started searching")
         // Creating a signal so we can abort the fetch request when we unmout
         this.controller = new AbortController();
         const signal = this.controller.signal;
