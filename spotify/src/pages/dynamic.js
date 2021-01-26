@@ -119,14 +119,14 @@ class Dynamic extends Component {
             // If it's playing and its not our current
             if (response.item && (response.item.id !== this.spotify_id)) {
                 clearInterval(window.refreshIntervalId)
-                
+                this.spotify_id = response.item.id
                 await this.search([response.item.name + " - " + response.item.artists[0].name, response.item.id, 0]).then((response) => {
                     console.log(this.query_IDs)
                     this.current_state = "playing"
                     this.is_interval = true
                 })
                 if (response.is_playing) {
-                    spotifyWebApi.pause()
+                    await spotifyWebApi.pause()
                 }
                 window.refreshIntervalId = setInterval(() => {this.checkStatus()}, 2500)
             } 
@@ -161,8 +161,6 @@ class Dynamic extends Component {
         console.log(body)
         this.query_IDs =  body.query_IDs;
         this.lyric_IDs = body.lyric_IDs;
-        console.log(this.query_IDS)
-        console.log(this.lyric_IDS)
         this.fetching =  false;
         this.setState({lyric: false})
 
@@ -170,7 +168,6 @@ class Dynamic extends Component {
             this.player.loadVideoById(body.query_IDs[0])
             this.current_state = "playing"
         }
-        this.is_interval = true;
 
     }
 
