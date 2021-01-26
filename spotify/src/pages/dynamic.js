@@ -143,8 +143,8 @@ class Dynamic extends Component {
 
         var data = {
             search_terms: [search_term],
-            query_IDs: this.query_IDs,
-            lyric_IDs: this.lyric_IDs,
+            query_IDs: [0],
+            lyric_IDs: [0],
         }
         this.fetching = true
         const response = await fetch('/youtube_search', {   
