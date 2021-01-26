@@ -96,8 +96,9 @@ class Dynamic extends Component {
     }
 
     checkStatus () {
-
         spotifyWebApi.getMyCurrentPlaybackState().then((response) => {
+            console.log(response, "response")
+            console.log(this.spotify_id, "curr spotify_id")
             // If shuffle, pause, if not,  play.
             if ((response.shuffle_state === true) && (this.current_state="playing")) {
                 document.getElementById('pause').click()
@@ -162,6 +163,8 @@ class Dynamic extends Component {
         const body = await response.json()
         this.query_IDs =  body.query_IDs;
         this.lyric_IDs = body.lyric_IDs;
+        console.log(this.query_IDS)
+        console.log(this.lyric_IDS)
         this.fetching =  false;
 
         if (!this.first_video) {
