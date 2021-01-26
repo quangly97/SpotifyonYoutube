@@ -126,7 +126,7 @@ class Dynamic extends Component {
                     this.is_interval = true
                 })
                 if (response.is_playing) {
-                    await spotifyWebApi.pause()
+                    spotifyWebApi.pause()
                 }
                 window.refreshIntervalId = setInterval(() => {this.checkStatus()}, 2500)
             } 

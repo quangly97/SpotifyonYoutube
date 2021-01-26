@@ -245,6 +245,7 @@ app.post("/youtube_search",  (req, res) => {
   })()
 })
 
+
 app.get('*',  (req, res) =>  {
   res.sendFile(path.join(__dirname, "..", "..", "spotify", "build", "index.html"))
 })

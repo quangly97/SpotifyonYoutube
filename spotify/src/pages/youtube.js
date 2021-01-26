@@ -115,12 +115,14 @@ class Youtube extends Component {
             query_IDs: this.state.query_IDs,
             lyric_IDs: this.state.lyric_IDs,
         }
+
+        console.log(data)
         this.setState({
              fetching: true
         })
 
         this._isMounted = true;
-        const response = await fetch('https://peaceful-caverns-22670.herokuapp.com/youtube_search', { 
+        const response = await fetch('/youtube_search', { 
                 method: 'POST',
                 signal: signal,
                 headers: {
@@ -129,6 +131,7 @@ class Youtube extends Component {
             },
             body: JSON.stringify(data),
         })
+        console.log(body)
         if (this._isMounted) {
             const body = await response.json()
             this.setState({
