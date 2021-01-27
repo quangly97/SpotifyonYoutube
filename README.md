@@ -16,13 +16,13 @@ Sign into your Spotify Account:
 
 There are 2 modes. 1. Dynamic and 2. Playlist
 
-<img src="https://github.com/KojoObeng/SpotifyonYoutube/blob/master/images/modes.jPG" width="300">
+<img src="https://github.com/KojoObeng/SpotifyonYoutube/blob/master/images/modes.jpg" width="300">
 
 ### Dynamic
 
 Dynamic mode allows you to control the Youtube player through Spotify app.
 
-<img src="https://github.com/KojoObeng/SpotifyonYoutube/blob/master/images/dynamic.jPG" width="300">
+<img src="https://github.com/KojoObeng/SpotifyonYoutube/blob/master/images/dynamic.jpg" width="300">
 
 Wait up to 5 seconds for the first video to load. Do not go back.
 
@@ -36,7 +36,7 @@ Pressing the "repeat (context)" (the image of the loop without the number "1" on
 
 Playlist mode plays a queue of videos of a shuffled playlist of your choice.
 
-<img src="https://github.com/KojoObeng/SpotifyonYoutube/blob/master/images/pick_playlist_page.JPG" width="300">
+<img src="https://github.com/KojoObeng/SpotifyonYoutube/blob/master/images/pick_playlist_page.JPG" width="300" height="300">
 
 Pick a playlist.
 
