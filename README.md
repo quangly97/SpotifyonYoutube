@@ -63,6 +63,8 @@ We will aim to reduce the time of computation for each thread by removing the us
 2. Refreshing access token is not easily accessible. Need to go back to the login page to do it. Will add a button for this.
 
 
+3. Fix the typed.js animation from moving the YouTube window in the 'Playlist' mode.
+
 
 
 
