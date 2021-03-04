@@ -20,7 +20,10 @@ const { Cluster } = require('puppeteer-cluster');
 var port = process.env.PORT || 8888
 var client_id = "f5015c8336214507b109279c338a098e"; // Your client id
 var client_secret = "dd067e38447f41a99d31021e5b4f5941"; // Your secret
-var redirect_uri = "https://peaceful-caverns-22670.herokuapp.com/callback/"
+
+// localhost:8888/callback
+// "https://peaceful-caverns-22670.herokuapp.com/callback/"
+var redirect_uri = process.env.REACT_APP_BACK_END_URL.concat("/callback")
 //var redirect_uri = "http://localhost:" + port + "/callback/"; // Your redirect uri
 
 /**
@@ -122,7 +125,7 @@ app.get("/callback", function (req, res) {
 
         // we can also pass the token to the browser to make requests from there
         res.redirect(
-          "https://peaceful-caverns-22670.herokuapp.com/modes/" +
+          process.env.REACT_APP_FRONT_END_URL.concat("/modes/") +
             querystring.stringify({
               access_token: access_token,
               refresh_token: refresh_token,
@@ -169,7 +172,7 @@ app.get("/refresh_token", function (req, res) {
 
 
 app.post("/youtube_search",  (req, res) => {
-  (async function(){
+  (async () => {
     // Settings to make puppeteer faster
     const options = {
       args: [
@@ -177,8 +180,6 @@ app.post("/youtube_search",  (req, res) => {
         '--disable-setuid-sandbox',
         '--disable-dev-shm-usage',
         '--disable-accelerated-2d-canvas',
-        '--no-first-run',
-        '--no-zygote',// <- this one doesn't works in Windows
         '--disable-gpu'
       ],
       headless: true
@@ -186,15 +187,17 @@ app.post("/youtube_search",  (req, res) => {
 
     // Launch concurrent puppeteer
     const cluster = await Cluster.launch({
-      concurrency: Cluster.CONCURRENCY_PAGE,
+      concurrency: Cluster.CONCURRENCY_CONTEXT,
       maxConcurrency: 4,
       retryLimit: 2,
       puppeteerOptions: options,
     });
-    var query_IDs = req.body.query_IDs
-    var lyric_IDs = req.body.lyric_IDs
 
-    await cluster.task(async ({ page, data}) => {
+    let query_IDs = req.body.query_IDs
+    let lyric_IDs = req.body.lyric_IDs
+
+
+    await cluster.task(async ({page, data}) => {
       await page.goto(data.url);
       await page.waitForSelector('#video-title')
       var [el] = await page.$x('//*[@id="video-title"]')
@@ -202,45 +205,41 @@ app.post("/youtube_search",  (req, res) => {
       var hreftext = await href.jsonValue();
       var youtube_id = hreftext.split("?v=")[1]
       console.log(youtube_id)
-
-      if (data.lyric === false) {
-        query_IDs[data.index] = youtube_id;
-      }
-      else {
-        lyric_IDs[data.index] = youtube_id;
-      }
+      data.lyric ? lyric_IDs[data.index] = youtube_id : query_IDs[data.index] = youtube_id;
         
-      console.log(youtube_id)
     })
 
-    var i = 0, len = req.body.search_terms.length;
+    let i = 0;
+    const len = req.body.search_terms.length;
+
     while (i < len) {
-      base = req.body.search_terms[i][0].split(" ").join("+").replace(/&/g, "+")
+      base = req.body.search_terms[i].track_name.split(" ").join("+").replace(/&/g, "+")
       query = base + "+official+video"
       lyric = base + "+lyric+video"
-      if (query_IDs[req.body.search_terms[i][2]] === 0) {
+      
+      if (query_IDs[req.body.search_terms[i].query_index] == null) {
         cluster.queue({
           url: "https://www.youtube.com/results?search_query=" + query, 
-          index: req.body.search_terms[i][2],
-          lyric: false
+          index: req.body.search_terms[i].query_index,
+          lyric: false,
         })
       }
-      if (lyric_IDs[req.body.search_terms[i][2]] === 0) {
+      if (lyric_IDs[req.body.search_terms[i].query_index] == null) {
         cluster.queue({
           url: "https://www.youtube.com/results?search_query=" + lyric, 
-          index: req.body.search_terms[i][2],
+          index: req.body.search_terms[i].query_index,
           lyric: true
         })
       }
       i++
     }
+
+
     
-    console.log(query_IDs)
     await cluster.idle()
+    console.log(query_IDs, lyric_IDs)
     res.send(
-      { query_IDs: query_IDs,
-        lyric_IDs: lyric_IDs,
-      });
+      { query_IDs, lyric_IDs });
     await cluster.close();
   })()
 })

@@ -14,7 +14,6 @@ class PickPlaylist extends Component {
             playlists: [],
         }
         this.getPlaylists = this.getPlaylists.bind(this);
-        console.log(ls.get("access_token"))
         spotifyWebApi.setAccessToken(ls.get("access_token"))
         
     }

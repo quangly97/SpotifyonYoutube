@@ -1,20 +1,17 @@
 .modes-page {
   display: flex;
-  justify-content: center;
-  margin: 0 auto;
-  margin-top: 200px;
 }
 
 .modes-container {
   display: flex;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 1000px;
   justify-content: center;
   animation: fadeIn;
   animation-duration: 1.5s;
-}
-
-.dynamic-button-and-image-container {
-  margin-right: 100px;
 }
 
 .playlist-image,
@@ -23,22 +20,7 @@
   justify-content: center;
   width: 200px;
   height: 200px;
-  text-align: center;
-  align-items: center;
-  font-size: 50%;
-  font-family: "Montserrat", bold;
-  background-color: #19720b;
-  border-color: #19720b;
-  line-height: 0.9;
-  border-radius: 3px 3px 0px 0px;
-}
-
-.playlist-button,
-.dynamic-button {
-  display: flex;
-  justify-content: center;
-  width: 200px;
-  height: 15px;
+  margin-right: 200px;
   text-align: center;
   align-items: center;
   font-size: 50%;
@@ -60,4 +42,25 @@
 .dynamic-image:hover,
 .playlist-image:hover {
   opacity: 0.4;
+}
+
+.dynamic-button-and-image-container {
+  margin-right: 100px;
+}
+
+.playlist-button,
+.dynamic-button {
+  display: flex;
+  justify-content: center;
+  text-transform: capitalize;
+  width: 200px;
+  height: 15px;
+  text-align: center;
+  align-items: center;
+  font-size: 50%;
+  font-family: "Montserrat", bold;
+  background-color: #19720b;
+  border-color: #19720b;
+  line-height: 0.9;
+  border-radius: 3px 3px 0px 0px;
 }

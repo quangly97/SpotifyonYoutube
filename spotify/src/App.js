@@ -1,18 +1,14 @@
 import React, { Component } from "react";
 import {BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./pages/home.js"
-import PickPlaylist from "./pages/pickPlaylist.js"
-import Youtube from "./pages/youtube.js"
 import Modes from "./pages/modes.js"
 import Dynamic from "./pages/dynamic.js"
-import Spotify from "spotify-web-api-js";
-const spotifyWebApi = new Spotify();
+import PickPlaylist from "./pages/pickPlaylist.js"
+import Youtube from "./pages/youtube.js"
+
+
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    console.log(localStorage)
-  }
   render() {
     return (
       <div>
@@ -21,7 +17,7 @@ class App extends Component {
             <Route path="/modes" component={Modes}/>
             <Route path="/youtube" component={Youtube}/>
             <Route path="/dynamic" component={Dynamic} />
-            <Route path="/pickPlaylist" component={PickPlaylist}/>
+            <Route path="/playlist" component={PickPlaylist}/>
             <Route path="/" component={Home} />
           </Switch>
         </Router> 

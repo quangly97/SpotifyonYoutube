@@ -12,91 +12,106 @@ class Dynamic extends Component {
         super(props);
         this.state = {
             lyric: false,
+            spotify_id: "",
+            query_IDs: ["qxOkaU6RVz4"],
+            lyric_IDs: [null],
+            first_video: true,
+            current_state: "stopped"
         }
-        this.spotify_id = "";
-        this.query_IDs =  [0];
-        this.lyric_IDs =  [0];
-        this.first_video = true;
-        this.current_state = "stopped";
-        console.log(this.props)
+
 
         // Set Access Token for Use
-        console.log(ls.get("access_token"))
         spotifyWebApi.setAccessToken(ls.get("access_token"))
         this.is_interval = true
-        this.search = this.search.bind(this)
-        this.loadVideo = this.loadVideo.bind(this)
-        this.onPlayerStateChange = this.onPlayerStateChange.bind(this)
-        this.handleLyricToggleClick = this.handleLyricToggleClick.bind(this)
-        this.checkStatus = this.checkStatus.bind(this)
-        this.onPlayerReady = this.onPlayerReady.bind(this) 
     }
     componentWillUnmount () {
         if (this.fetching) {
             this.controller.abort()
         }
         clearInterval(window.refreshIntervalId)
-        console.log("cleared")
-
-        //  instead of a local variable, and it works great! – S
+        console.log("Cleared")
     }
 
     async componentDidMount () {
         // If this is the first video, we are going to load the script
-        if (this.first_video) {
-            spotifyWebApi.getMyCurrentPlaybackState().then(async (response) => {
-                // 
-                if (response.item) {
+        this.addScriptElement()
+        spotifyWebApi.getMyCurrentPlaybackState().then(async (response) => {
+            if (response.item) {
+                const {name, artists, id} = response.item
+                await this.search(
+                    {track_name: name + " - " + artists[0].name,
+                    spotify_id: id,
+                    query_index: 0})
+            }
+            else {
+                spotifyWebApi.getMyRecentlyPlayedTracks().then(async (response) => {
+                    const {name, artists, id} = response.items[0].track
+                    await this.search(
+                        {track_name: name + " - " + artists[0].name, 
+                        spotify_id: id,
+                        query_index: 0}
+                    )          
+                })
+            }
+        })
 
-                    this.spotify_id = response.item.id
-                    await this.search([response.item.name + " - " + response.item.artists[0].name, response.item.id, 0])
-
-                    if (!window.YT) {
-                        // Adding Script Element
-                        const tag = document.createElement('script');
-                        tag.src = 'https://www.youtube.com/iframe_api'
-                        window.onYouTubeIframeAPIReady =  () => { this.loadVideo(this.query_IDs[0])}
-                        const firstScriptTag = document.getElementsByTagName('script')[0];
-                        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-                    }
-                    else {
-                        this.loadVideo(this.query_IDs[0])
-                    }
-                    this.first_video = false;  
-                }
-
-                else {
-                    // If nothign is currently playing, get recently playing tracks
-                    spotifyWebApi.getMyRecentlyPlayedTracks().then(async (response) => {
-                        this.spotify_id = response.items[0].track.id
-                        await this.search([response.items[0].track.name + " - " + response.items[0].track.artists[0].name, response.items[0].track.id, 0])
-                        
-                        if (!window.YT) {
-                            // Adding Script Element
-                            const tag = document.createElement('script');
-                            tag.src = 'https://www.youtube.com/iframe_api'
-                            window.onYouTubeIframeAPIReady = () => {this.loadVideo(this.query_IDs[0])};
-                            const firstScriptTag = document.getElementsByTagName('script')[0];
-                            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-                        }
-                        else {
-                            this.loadVideo(this.query_IDs[0]);
-                        }
-                        this.first_video = false;
-                            
-                    })
-                }
-            })
-        }
-
-        // Check status every x milliseconds
-    window.refreshIntervalId = setInterval(() => {this.checkStatus()}, 2500)
+        window.refreshIntervalId = setInterval(() => {this.checkStatus()}, 3200)
     }
 
-    checkStatus () {
+    search = async(search_terms) => {
+        console.log("Started Searching")
+
+        // Creating a signal so we can abort the fetch request when we unmout
+        this.controller = new AbortController();
+        const signal = this.controller.signal;
+
+
+        var data = {
+            search_terms: [search_terms],
+            query_IDs: [null],
+            lyric_IDs: [null],
+        }
+
+        this.fetching = true
+        const response = await fetch(`${process.env.REACT_APP_BACK_END_URL}/youtube_search`, {   
+            method: 'POST',
+                signal: signal,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        })
+
+        const {query_IDs, lyric_IDs} = await response.json()
+        this.fetching =  false;
+        
+        this.current_state = "playing"
+
+        this.setState({lyric: false, query_IDs, lyric_IDs})
+        this.player.loadVideoById ? this.player.loadVideoById(this.state.query_IDs[0]) :  this.loadVideo(this.state.query_IDs[0])
+
+    }
+
+    addScriptElement = () => {
+        if (!window.YT) {
+            // Adding Script Element
+            const tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api'
+            window.onYouTubeIframeAPIReady =  () => {this.loadVideo(this.state.query_IDs[0])}
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
+        else {
+            this.loadVideo(this.state.query_IDs[0])
+
+        }
+    }
+
+    checkStatus = () => {
         spotifyWebApi.getMyCurrentPlaybackState().then(async (response) => {
-            console.log(response, "response")
-            console.log(this.spotify_id, "curr spotify_id")
+            // if (!response) {await spotifyWebApi.play(); spotifyWebApi.pause()}
+            console.log(response)
             // If shuffle, pause, if not,  play.
             if ((response.shuffle_state === true) && (this.current_state="playing")) {
                 document.getElementById('pause').click()
@@ -109,18 +124,18 @@ class Dynamic extends Component {
 
             // If on repeat, toggle lyric video/music video
             if (response.repeat_state === "context") {
-                if (!this.first_video) {
-                    this.handleLyricToggleClick()
-                    spotifyWebApi.setRepeat("off")
-                }
-
+                    this.handleLyricToggle()
             }
 
             // If it's playing and its not our current
             if (response.item && (response.item.id !== this.spotify_id)) {
                 clearInterval(window.refreshIntervalId)
                 this.spotify_id = response.item.id
-                await this.search([response.item.name + " - " + response.item.artists[0].name, response.item.id, 0]).then((response) => {
+                const {name, artists, id} = response.item
+                await this.search(
+                    {track_name: name + " - " + artists[0].name,
+                    spotify_id: id,
+                    query_index: 0}).then((response) => {
                     console.log(this.query_IDs)
                     this.current_state = "playing"
                     this.is_interval = true
@@ -128,51 +143,13 @@ class Dynamic extends Component {
                 if (response.is_playing) {
                     spotifyWebApi.pause()
                 }
-                window.refreshIntervalId = setInterval(() => {this.checkStatus()}, 2500)
+                window.refreshIntervalId = setInterval(() => {this.checkStatus()}, 3200)
             } 
         })
 
     }
 
     
-    async search(search_term) {
-        console.log("started searching")
-        // Creating a signal so we can abort the fetch request when we unmout
-        this.controller = new AbortController();
-        const signal = this.controller.signal;
-
-        var data = {
-            search_terms: [search_term],
-            query_IDs: [0],
-            lyric_IDs: [0],
-        }
-
-        console.log(data)
-        this.fetching = true
-        const response = await fetch('/youtube_search', {   
-            method: 'POST',
-                signal: signal,
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data),
-        })
-
-        const body = await response.json()
-        console.log(body)
-        this.query_IDs =  body.query_IDs;
-        this.lyric_IDs = body.lyric_IDs;
-        this.fetching =  false;
-        this.setState({lyric: false})
-
-        if (!this.first_video) {
-            this.player.loadVideoById(body.query_IDs[0])
-            this.current_state = "playing"
-        }
-
-    }
-
     loadVideo = (id) => {
         this.player = new window.YT.Player('player', {
             height: '720',
@@ -193,7 +170,7 @@ class Dynamic extends Component {
     }
     
 
-    onPlayerReady(e) {
+    onPlayerReady = (e) => {
         document.getElementById('pause').addEventListener('click', function() {
             e.target.pauseVideo();
         })
@@ -203,7 +180,7 @@ class Dynamic extends Component {
         e.target.playVideo();
     }
 
-    onPlayerStateChange(e) {
+    onPlayerStateChange = (e) => {
         if (e.data === window.YT.PlayerState.PLAYING) {
             this.current_state = "playing"
         }
@@ -211,26 +188,21 @@ class Dynamic extends Component {
             this.current_state = "paused"
         }
         if (e.data === window.YT.PlayerState.ENDED) {
-            this.player.loadVideoById(this.query_IDs[0])
+            this.player.loadVideoById(this.state.query_IDs[0])
         }
     }
-    onError(e) {
+    onError = (e) => {
         if ((e.data === 101) || (e.data === 150)) {
-            this.player.loadVideoById(this.lyric_IDs[0])
+            this.player.loadVideoById(this.state.lyric_IDs[0])
         }
     }
 
-    handleLyricToggleClick() {
+    handleLyricToggle = () => {
         this.setState({
             lyric: !this.state.lyric,
         }, () => {
-            if (this.state.lyric) {
-                this.player.loadVideoById(this.lyric_IDs[0])
-            }
-            else {
-                this.player.loadVideoById(this.query_IDs[0])
-            }
-            
+            spotifyWebApi.setRepeat("off")
+            this.state.lyric ? this.player.loadVideoById(this.state.lyric_IDs[0]) : this.player.loadVideoById(this.state.query_IDs[0])
         })
     }
 
@@ -238,12 +210,12 @@ class Dynamic extends Component {
         return (
             <div> 
                 <NavigationBar back="modes">
-                    <Button className="dynamic-lyric-button" onClick={()=> this.handleLyricToggleClick()}>
+                    <Button className="dynamic-lyric-button" onClick={()=> this.handleLyricToggle()}>
                             {this.state.lyric ? "Music Video" :  "Lyric Video"}
                     </Button>
                 </NavigationBar>
                 <div className = "player-container">
-                    <div id="player"> </div>
+                    <div id="player"></div>
                     <Button id="pause" className="invisible">Pause</Button>
                     <Button id="play" className="invisible">Play</Button>
                 </div>
@@ -254,3 +226,4 @@ class Dynamic extends Component {
 
 
 export default Dynamic
+//

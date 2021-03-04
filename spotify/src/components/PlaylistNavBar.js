@@ -11,9 +11,9 @@ class PlaylistNavbar extends Component {
         }
     }
     render () {
-        return(
+        return (
          <Navbar className="playlistNavigation">
-             <a href="http://localhost:8888/login">
+             <a href={process.env.REACT_APP_BACK_END_URL.concat("/playlist")}>
                 <img className="playlist-back-button" src={require("../images/green-left-icon-arrow-left.png")} alt="Green Left Arrow" height="30" />
              </a>
         </Navbar> 
