@@ -23,7 +23,8 @@ var client_secret = "dd067e38447f41a99d31021e5b4f5941"; // Your secret
 
 // localhost:8888/callback
 // "https://peaceful-caverns-22670.herokuapp.com/callback/"
-var redirect_uri = process.env.REACT_APP_BACK_END_URL.concat("/callback")
+var redirect_uri = process.env.REACT_APP_BACK_END_URL + "/callback/"
+console.log(redirect_uri)
 //var redirect_uri = "http://localhost:" + port + "/callback/"; // Your redirect uri
 
 /**
