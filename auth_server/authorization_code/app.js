@@ -16,6 +16,9 @@ var cookieParser = require("cookie-parser");
 var bodyParser = require('body-parser')
 const puppeteer = require('puppeteer')
 const { Cluster } = require('puppeteer-cluster');
+require('dotenv').config()
+// {path:__dirname+'/./../../.env'}
+console.log(process.env)
 
 var port = process.env.PORT || 8888
 var client_id = "f5015c8336214507b109279c338a098e"; // Your client id
@@ -216,7 +219,7 @@ app.post("/youtube_search",  (req, res) => {
     while (i < len) {
       base = req.body.search_terms[i].track_name.split(" ").join("+").replace(/&/g, "+")
       query = base + "+official+video"
-      lyric = base + "+lyric+video"
+      lyric = base + "+lyrics"
       
       if (query_IDs[req.body.search_terms[i].query_index] == null) {
         cluster.queue({
