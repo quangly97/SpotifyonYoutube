@@ -10,8 +10,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 50%;
-  animation: fadeIn;
-  animation-duration: 1.5s;
+  animation: pulse;
+  animation-duration: 2.7s;
 }
 
 .titleContainer {
@@ -22,5 +22,14 @@
   font-family: "SpotifyLarge";
   margin-bottom: 20px;
   color: white;
-  animation: pulse 5s;
+  animation: pulse 2.7s;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
