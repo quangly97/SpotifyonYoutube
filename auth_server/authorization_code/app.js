@@ -107,7 +107,6 @@ if (false) {
             '--use-mock-keychain'
         ],
         headless: true,
-        userDataDir: './pupeteer-cache'
       }
 
 
