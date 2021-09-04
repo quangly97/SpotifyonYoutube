@@ -294,7 +294,7 @@ if (false) {
       
       
     app.get('*',  (req, res) =>  {
-      res.sendFile(path.join(__dirname, "..", "..", "spotify", "build", "index.html"))
+      res.sendFile(path.join(__dirname, "..", "..", "build", "index.html"))
     })
       
     
