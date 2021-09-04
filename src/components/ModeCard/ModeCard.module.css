@@ -37,13 +37,16 @@
 .modeCardBack {
   display: flex;
   justify-content: center;
-  padding: 0px 10px;
   align-items: center;
   font-size: 14px;
   border-radius: 5px;
   background-color: #19720b;
   color: white;
   transform: rotateY(180deg);
+}
+
+.modeCardBackText {
+  padding: 0 20px;
 }
 
 .modeButton {
@@ -58,6 +61,7 @@
   font-size: 90%;
   font-family: "SpotifyMedium";
   text-transform: capitalize;
+  text-decoration: none;
 
   background-color: #19720b;
   border-color: #19720b;

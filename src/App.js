@@ -6,7 +6,7 @@ import Dynamic from "./pages/DynamicPage/DynamicPage"
 import PickPlaylist from "./pages/PickPlaylistPage/PickPlaylistPage"
 import Youtube from "./pages/PlaylistYoutubePage/PlaylistYoutubePage"
 import PrivateRoute from "./util/PrivateRoute"
-
+import css from "./App.css"
 
 const App = () => {
   return (

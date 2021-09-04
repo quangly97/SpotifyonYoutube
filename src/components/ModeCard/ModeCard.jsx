@@ -14,7 +14,7 @@ const ModeCard = (props) => {
                         <img className={css.modeImage} src={img} alt=""/>
                         </div>
                         <div className={css.modeCardBack}>
-                            {descriptionText}
+                            <span className={css.modeCardBackText}>{descriptionText} </span>
                         </div>
                     </div>
                 </Link>

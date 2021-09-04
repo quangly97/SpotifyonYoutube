@@ -136,7 +136,6 @@ class Dynamic extends Component {
         spotifyWebApi.getMyCurrentPlaybackState()
         .then(async (response) => {
             // if (!response) {await spotifyWebApi.play(); spotifyWebApi.pause()}
-            console.log(response)
 
             // If shuffle and playing, pause, if not,  play.
             if ((response.shuffle_state === true) && (this.current_state=PLAYING)) {
@@ -264,8 +263,8 @@ class Dynamic extends Component {
                 </div>
                 <div className={css.playerContainer}>
                     <div id="player"></div>
-                    <button id="pause" className="invisible">Pause</button>
-                    <button id="play" className="invisible">Play</button>
+                    <button id="pause" className={css.invisible}>Pause</button>
+                    <button id="play" className={css.invisible}>Play</button>
                 </div>
             </div>)
             
