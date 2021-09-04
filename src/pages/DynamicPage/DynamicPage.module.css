@@ -11,64 +11,32 @@
   justify-content: space-around;
 }
 
-.instructionText {
-  color: white;
-  font-size: 10px;
-  font-family: "SpotifyMedium";
+.instruction {
+  align-self: flex-end;
+  display: flex;
 }
 
-.repeatIcon {
+.instructionText {
+  align-self: flex-end;
+
+  margin-left: 10px;
+
+  font-size: 10px;
+  font-family: "SpotifyMedium";
+
+  color: white;
+}
+
+.repeatIcon,
+.shuffleIcon {
   width: 20px;
   height: 15px;
+  align-self: flex-end;
 }
 
 .spotifyLogo {
   width: 20px;
   height: 20px;
-}
-
-.shuffleIcon {
-  width: 20px;
-  height: 15px;
-}
-
-.dynamic-lyric-button {
-  height: 16px;
-  margin-left: 50px;
-  display: flex;
-  justify-content: center;
-  width: 140px;
-  text-align: center;
-  align-items: center;
-  font-size: 50%;
-  font-family: "Montserrat", bold;
-  background-color: #19720b;
-  border-color: #19720b;
-  line-height: 0.9;
-  border-radius: 3px 3px 0px 0px;
-}
-
-.dynamic-lyric-button:hover {
-  background-color: red;
-  border-color: red;
-}
-
-.invisible {
-  background: transparent;
-  border: none;
-  outline: none;
-  display: block;
-  height: 20px;
-  width: 20px;
-  cursor: pointer;
-}
-
-.player-container {
-  display: flex;
-  flex: wrap;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
 }
 
 #player {

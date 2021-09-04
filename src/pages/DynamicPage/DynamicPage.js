@@ -248,15 +248,15 @@ class Dynamic extends Component {
             <div> 
                 <Navigation back="modes" message={message}/>
                 <div className={css.instructions}>
-                    <div>
+                    <div className={css.instruction}>
                         <img src={repeatIcon} className={css.repeatIcon}/>
                         <span className={css.instructionText}> Repeat on  app to change to {otherTypeOfVideo} </span>
                     </div>
-                    <div>
+                    <div className={css.instruction}>
                         <img src={spotifyLogo} className={css.spotifyLogo} />
                         <span className={css.instructionText}> Try changing songs on the app!</span>
                     </div>
-                    <div>
+                    <div className={css.instruction}>
                         <img src={shuffleIcon} className={css.shuffleIcon}/>
                         <span className={css.instructionText}>  Shuffle on app to pause/play </span>
                     </div>
