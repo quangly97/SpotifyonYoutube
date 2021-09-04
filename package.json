@@ -6,9 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"react-scripts start\" \"nodemon auth_server/authorization_code/app\"",
-    "build": "cd spotify && npm run build",
-    "install-client": "cd spotify && npm install",
-    "heroku-postbuild": "npm run install-client && npm run build"
+    "build": "react-scripts build"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
