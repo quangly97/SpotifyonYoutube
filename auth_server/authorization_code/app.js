@@ -59,7 +59,7 @@ if (false) {
     var app = express();
 
     app
-      .use(express.static(__dirname + "/../../public"))
+      .use(express.static(__dirname + "/../../build"))
       .use(cors())
       .use(cookieParser())
       .use(bodyParser.json());
