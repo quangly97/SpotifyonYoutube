@@ -1,12 +1,12 @@
 {
-  "name": "spotify",
+  "name": "kojoplay",
   "version": "1.0.0",
   "description": "Plays music or lyric videos from songs on your Spotify playlist so you can watch while you listen!\r Done in React.js and Node.js",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"react-scripts start\" \"nodemon auth_server/authorization_code/app\"",
-    "build": "react-scripts build"
+    "heroku-postbuild": "npm install && npm run build"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
