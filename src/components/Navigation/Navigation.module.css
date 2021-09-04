@@ -1,0 +1,12 @@
+.navigationContainer {
+  display: flex;
+}
+
+.navigationMessage {
+  flex-grow: 1;
+  color: white;
+  font-family: "SpotifyMedium";
+  text-align: center;
+  align-self: flex-end;
+  padding: auto auto;
+}

@@ -1,0 +1,8 @@
+2021/09/04-01:25:02.440 7128 Reusing MANIFEST C:\Users\Kwadw\OneDrive\Documents\Grind\Projects\React Projects\Spotify\pupeteer-cache\Default\IndexedDB\https_www.youtube.com_0.indexeddb.leveldb/MANIFEST-000001
+2021/09/04-01:25:02.441 7128 Recovering log #420
+2021/09/04-01:25:02.441 7128 Reusing old log C:\Users\Kwadw\OneDrive\Documents\Grind\Projects\React Projects\Spotify\pupeteer-cache\Default\IndexedDB\https_www.youtube.com_0.indexeddb.leveldb/000420.log 
+2021/09/04-01:25:08.552 7128 Level-0 table #424: started
+2021/09/04-01:25:08.552 7128 Level-0 table #424: 0 bytes OK
+2021/09/04-01:25:08.566 7128 Delete type=0 #420
+2021/09/04-01:25:08.567 7128 Manual compaction at level-0 from (begin) .. (end); will stop at (end)
+2021/09/04-01:25:08.567 7128 Manual compaction at level-1 from (begin) .. (end); will stop at (end)

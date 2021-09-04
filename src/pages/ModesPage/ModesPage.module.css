@@ -1,0 +1,26 @@
+.modes-page {
+  display: flex;
+}
+
+.modesContainer {
+  display: flex;
+  justify-content: space-around;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  animation: fadeIn;
+  animation-duration: 1.5s;
+}
+
+.titleContainer {
+  margin-top: 200px;
+  font-size: 40px;
+  text-align: center;
+  max-height: auto;
+  font-family: "SpotifyLarge";
+  margin-bottom: 20px;
+  color: white;
+  animation: pulse 5s;
+}

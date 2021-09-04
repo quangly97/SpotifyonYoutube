@@ -1,0 +1,101 @@
+/* @import url('https://fonts.googleapis.<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">/css?family=Anton');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap");
+@import url("//db.onlinewebfonts.com/c/01173b246d9d9ea808ea75a26b3b61bb?family=Circular+Spotify+Tx+T+Black"); */
+
+.background {
+  background-color: #000000;
+}
+
+.landingPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  background-color: #000000;
+  height: 100vh;
+}
+
+.loginContainer {
+  display: grid;
+  width: 80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.titleContainer {
+  font-size: 40px;
+  text-align: center;
+  max-height: auto;
+  font-family: "SpotifyLarge";
+  margin-bottom: 20px;
+  color: white;
+  animation: pulse 5s;
+}
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.youtubeLogo {
+  width: 375px;
+  animation: pulse 5s;
+}
+
+.spotifyLogo {
+  width: 400px;
+  animation: pulse 5s;
+}
+
+.loginButton {
+  height: 80px;
+  width: 70%;
+  font-family: "SpotifyLarge";
+  font-size: 20px;
+
+  background-color: #1db954;
+  color: white;
+  animation: pulse 8s;
+  border: 0px;
+}
+
+.loginButton:hover {
+  background-color: #ff0000;
+}
+
+.linkButton {
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  width: 100%;
+}
+
+.linkButton:hover {
+  text-decoration: none;
+}
+
+.buttonContainer {
+}
+
+.App-navbar {
+  background-color: #419c21;
+  color: white;
+  opacity: 0.5;
+}
+
+html {
+  background-color: black;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

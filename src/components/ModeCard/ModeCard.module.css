@@ -1,0 +1,87 @@
+/* @import url(//db.onlinewebfonts.com/c/21a1184148d11d67c19f5076b909d63b?family=Circular+Spotify+Tx+T+Book); */
+
+.modeCardContainer {
+  display: block;
+}
+
+.modeCard {
+  background-color: transparent;
+  width: 220px;
+  height: 200px;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+.modeCardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+}
+
+.modeCard:hover .modeCardInner {
+  transform: rotateY(180deg);
+}
+
+.modeCardFront,
+.modeCardBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+  font-family: "SpotifyMedium";
+}
+
+.modeCardBack {
+  display: flex;
+  justify-content: center;
+  padding: 0px 10px;
+  align-items: center;
+  font-size: 14px;
+  border-radius: 5px;
+  background-color: #19720b;
+  color: white;
+  transform: rotateY(180deg);
+}
+
+.modeButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 220px;
+  height: 30px;
+
+  text-align: center;
+  font-size: 90%;
+  font-family: "SpotifyMedium";
+  text-transform: capitalize;
+
+  background-color: #19720b;
+  border-color: #19720b;
+  color: white;
+  border-radius: 5px;
+  opacity: 0.8;
+}
+
+.modeButton:hover {
+  opacity: 0.8;
+  background-color: #ff0000;
+  border-color: #ff0000;
+}
+
+.modeImage {
+  display: block;
+  width: 220px;
+  height: 200px;
+  background-color: #19720b;
+  border-color: #19720b;
+  line-height: 0.9;
+  border-radius: 5px;
+}
+
+.modeImage:hover {
+  opacity: 0.6;
+}

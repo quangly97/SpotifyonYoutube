@@ -1,0 +1,14 @@
+.navigation {
+  top: 0;
+  position: fixed;
+  justify-content: left;
+}
+
+.navigation-back-button {
+  margin-left: 0px;
+  margin-top: 5px;
+  display: flex;
+  height: 20px;
+  animation: fadeIn;
+  animation-duration: 2s;
+}
