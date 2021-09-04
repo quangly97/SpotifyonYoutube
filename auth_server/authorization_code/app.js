@@ -19,7 +19,7 @@ const cluster = require('cluster')
 const os = require('os')
 const childProcess = require('child_process')
 require('dotenv').config()
-// {path:__dirname+'/./../../.env'}
+
 
 var port = process.env.PORT || 8888
 var client_id = process.env.CLIENT_ID; // Your client id
