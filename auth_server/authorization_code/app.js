@@ -59,13 +59,13 @@ if (false) {
     var app = express();
 
     app
-      .use(express.static(__dirname + "/../../spotify/build"))
+      .use(express.static(__dirname + "/../../public/"))
       .use(cors())
       .use(cookieParser())
       .use(bodyParser.json());
 
     app.get("/", (req, res) => {
-      res.render("index")
+      res.sendFile(path.resolve(__dirname,'../../public/index.html'))
     })
 
     ;(async () => {
