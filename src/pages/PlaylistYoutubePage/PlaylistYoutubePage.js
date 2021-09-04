@@ -4,7 +4,6 @@ import { Button, Spinner} from "react-bootstrap";
 // import greenLeftArrow from "../images/green-left-icon-arrow-left.png"
 import css from './PlaylistYoutubePage.module.css'
 import Spotify from 'spotify-web-api-js'
-import Typed from 'react-typed';
 
 const spotifyWebApi =  new Spotify();
 class Youtube extends Component {
@@ -246,13 +245,13 @@ class Youtube extends Component {
                             {this.state.fetching ? 
                             <div className="typed-and-spinner">
                                 <div style={{"width":"200px"}}>
-                                    <Typed
+                                    {/* <Typed
                                         typedRef={(typed) => { this.typed = typed; }}
                                         strings={['Do not go back...', 'Loading...', 'Do not refresh the page...', "Retrieving links from Youtube...", "Getting HD quality links...", "Getting lyric videos...", "Load"]}
                                         typeSpeed={30}
                                         className="loading-typed"
                                         loop
-                                    />
+                                    /> */}
                                 </div>
                                 <div>
                                     <Spinner animation="border" className="loading-spinner" />
