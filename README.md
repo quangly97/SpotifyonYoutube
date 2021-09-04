@@ -2,7 +2,7 @@
 
 Plays music or lyric videos from songs on your Spotify so you can watch while you listen!
 Done in React.js and Node.js
-Currently Hosted on https://peaceful-caverns-22670.herokuapp.com/
+Currently Hosted on https://kojoplay.herokuapp.com/
 
 ## Tutorial
 
