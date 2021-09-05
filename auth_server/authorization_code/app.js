@@ -46,7 +46,7 @@ var generateRandomString = function (length) {
 var stateKey = "spotify_auth_state";
 
 // check if the process is the master process
-if (cluster.isMaster) {
+if (false) {
   // get the number of available cpu cores 
   const nCPUs = os.cpus().length;
   console.log(nCPUs)
