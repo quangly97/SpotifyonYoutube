@@ -46,7 +46,7 @@ var generateRandomString = function (length) {
 var stateKey = "spotify_auth_state";
 
 // check if the process is the master process
-if (false) {
+if (cluster.isMaster) {
   // get the number of available cpu cores 
   const nCPUs = os.cpus().length;
   console.log(nCPUs)
@@ -123,7 +123,7 @@ if (false) {
         await page.waitForSelector('#video-title')
         var [el] = await page.$x('//*[@id="video-title"]')
         var href = await el.getProperty('href')
-        var hreftext = await href.jsonValue();
+        var hreftext = href._remoteObject.value
         var youtube_id = hreftext.split("?v=")[1]
         if (lyric_IDs) {
           lyric_IDs[data.index] = youtube_id

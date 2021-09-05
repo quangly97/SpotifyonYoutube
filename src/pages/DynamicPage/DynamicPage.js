@@ -48,7 +48,8 @@ class Dynamic extends Component {
                 await this.search(
                     {track_name: name + " - " + artists[0].name,
                     spotify_id: id,
-                    query_index: 0})
+                    query_index: 0
+                })
             }
         })
         .catch( () => {
@@ -59,7 +60,7 @@ class Dynamic extends Component {
                     {track_name: name + " - " + artists[0].name, 
                     spotify_id: id,
                     query_index: 0}
-                )          
+                )      
             })
 
         })
@@ -159,6 +160,9 @@ class Dynamic extends Component {
                 clearInterval(window.refreshIntervalId)
                 this.spotify_id = response.item.id
                 const {name, artists, id} = response.item
+                if (response.is_playing) {
+                    spotifyWebApi.pause()
+                }
                 await this.search(
                     { 
                         track_name: name + " - " + artists[0].name,
@@ -167,11 +171,8 @@ class Dynamic extends Component {
                     })
                 this.current_state = PLAYING
 
-                if (response.is_playing) {
-                    await spotifyWebApi.pause()
-                    this.current_state = PAUSED
-                }
-                window.refreshIntervalId = setInterval(() => {this.checkStatus()}, 2500)
+    
+                window.refreshIntervalId = setInterval(() => {this.checkStatus()}, 2200)
             } 
         })
         .catch( async (error) => {
